@@ -1,10 +1,10 @@
 <template>
     <div :class="$style.wrapper">
-        <div>Wash dishes</div>
+        <div>{{ task.newTaskDescription }}</div>
         <div>
             <button>Completed</button>
-            <button>Delete</button>
             <button>Edit</button>
+            <button>Delete</button>
         </div>
     </div>
 </template>
@@ -14,6 +14,9 @@
 export default {
     name: 'TodoItem',
     props: {
+        task: Object,
+    },
+    methods: {
 
     },
 }

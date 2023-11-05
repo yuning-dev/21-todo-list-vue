@@ -9,8 +9,19 @@
                 and at your own peril. Mwahahahahah!!!!!??!!!!
             </p>
             <div :class="$style.addItemContainer">
-                <input type="text" :class="$style.addItemField">
-                <button>Add list item</button>
+                <label>
+                    Task description
+                    <input type="text" :class="$style.addItemField" v-model="newTaskDescription">
+                </label>
+                <label>
+                    Due date
+                    <input type="date" :class="$style.dueDate" v-model="newTaskDueDate" />
+                </label>
+                <label>
+                    <button @click="addListItem">
+                        Add list item
+                    </button>
+                </label>
             </div>
         </section>
         <section :class="[$style.activeTasksSection, $style.card]">
@@ -20,7 +31,9 @@
                 </h2>
                 <button>Delete active tasks</button>
             </div>
-            
+            <template v-for="task in taskList">
+                <TodoItem :task="task"/>
+            </template>
         </section>
         <section :class="[$style.completedTasksSection, $style.card]">
             <div :class="$style.listHeader">
@@ -35,8 +48,29 @@
 </template>
 
 <script>
+import TodoItem from '../../components/TodoItem.vue'
+
 export default {
     name: 'TodoList',
+    components: {
+        TodoItem
+    },
+    data() {
+        return {
+            newTaskDescription: '',
+            newTaskDueDate: '',
+            taskList: [],
+        }
+    },
+    methods: {
+        addListItem() {
+            const task = {
+                newTaskDescription: this.newTaskDescription,
+                newTaskDueDate: this.newTaskDueDate,
+            }
+            this.taskList.push(task)
+        },
+    },
 }
 </script>
 
