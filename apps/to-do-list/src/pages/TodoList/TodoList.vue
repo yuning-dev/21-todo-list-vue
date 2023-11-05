@@ -29,10 +29,10 @@
                 <h2>
                     Active tasks
                 </h2>
-                <button>Delete active tasks</button>
+                <button @click="deleteActiveTasks">Delete active tasks</button>
             </div>
             <template v-for="task in taskList">
-                <TodoItem :task="task"/>
+                <TodoItem :task="task" @delete="deleteActiveTaskItem"/>
             </template>
         </section>
         <section :class="[$style.completedTasksSection, $style.card]">
@@ -59,16 +59,32 @@ export default {
         return {
             newTaskDescription: '',
             newTaskDueDate: '',
+            newTaskId: 0,
             taskList: [],
         }
     },
     methods: {
         addListItem() {
             const task = {
-                newTaskDescription: this.newTaskDescription,
-                newTaskDueDate: this.newTaskDueDate,
+                description: this.newTaskDescription,
+                dueDate: this.newTaskDueDate,
+                id: this.newTaskId
             }
+
             this.taskList.push(task)
+            this.newTaskId++
+        },
+        deleteActiveTasks() {
+            this.taskList = []
+        },
+        deleteActiveTaskItem(id) {
+            const taskListWithTaskRemoved = this.taskList.filter((task) => {
+                if (task.id === id) {
+                    return false
+                } 
+                return true
+            })
+            this.taskList = taskListWithTaskRemoved
         },
     },
 }

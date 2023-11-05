@@ -1,10 +1,10 @@
 <template>
     <div :class="$style.wrapper">
-        <div>{{ task.newTaskDescription }}</div>
+        <div>{{ task.description }}</div>
         <div>
             <button>Completed</button>
             <button>Edit</button>
-            <button>Delete</button>
+            <button @click="deleteButtonClicked">Delete</button>
         </div>
     </div>
 </template>
@@ -17,7 +17,9 @@ export default {
         task: Object,
     },
     methods: {
-
+        deleteButtonClicked() {
+            this.$emit('delete', this.task.id)
+        }
     },
 }
 </script>
