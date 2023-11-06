@@ -6,3 +6,11 @@
     margin-top: 8px;
     border-radius: 10px;
 }
+
+.editCompleteIcon {
+    margin-left: 5px;
+}
+
+.editCompleteIcon:hover {
+    cursor: pointer;
+}

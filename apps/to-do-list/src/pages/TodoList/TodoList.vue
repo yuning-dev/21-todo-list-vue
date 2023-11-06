@@ -11,7 +11,7 @@
             <div :class="$style.addItemContainer">
                 <label>
                     Task description
-                    <input type="text" :class="$style.addItemField" v-model="newTaskDescription">
+                    <input type="text" :class="$style.addItemField" v-model="newTaskDescription" @keyup.enter="addListItem" />
                 </label>
                 <label>
                     Due date
@@ -32,7 +32,7 @@
                 <button @click="deleteActiveTasks">Delete active tasks</button>
             </div>
             <template v-for="task in taskList">
-                <TodoItem :task="task" @delete="deleteActiveTaskItem"/>
+                <TodoItem :task="task" @delete="deleteActiveTaskItem" @updateTask="updateTaskDescription" />
             </template>
         </section>
         <section :class="[$style.completedTasksSection, $style.card]">
@@ -73,6 +73,16 @@ export default {
 
             this.taskList.push(task)
             this.newTaskId++
+            this.newTaskDescription = ''
+        },
+        updateTaskDescription(updatedDescription, id) {
+            const taskToUpdate = this.taskList.find((task) => {
+                if (task.id === id) {
+                    return true
+                }
+                return false
+            })
+            taskToUpdate.description = updatedDescription
         },
         deleteActiveTasks() {
             this.taskList = []

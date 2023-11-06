@@ -1,9 +1,15 @@
 <template>
     <div :class="$style.wrapper">
-        <div>{{ task.description }}</div>
+        <div v-if="isInEditMode === false">
+            {{ task.description }}
+        </div>
+        <div v-if="isInEditMode === true">
+            <input type="text" v-model="editedTaskDescription" @keyup.enter="editCompleteIconClicked" @blur="editCompleteIconClicked"/>
+            <img src="../../public/checkmark.png" width="16" :class="$style.editCompleteIcon" @click="editCompleteIconClicked">
+        </div>
         <div>
-            <button>Completed</button>
-            <button>Edit</button>
+            <button :disabled="isButtonDisabled">Completed</button>
+            <button @click="editButtonClicked" :disabled="isButtonDisabled">Edit</button>
             <button @click="deleteButtonClicked">Delete</button>
         </div>
     </div>
@@ -16,10 +22,26 @@ export default {
     props: {
         task: Object,
     },
+    data() {
+        return {
+            editedTaskDescription: this.task.description,
+            isInEditMode: false,
+            isButtonDisabled: false
+        }
+    },
     methods: {
+        editButtonClicked() {
+            this.isButtonDisabled = true
+            this.isInEditMode = true
+        },
+        editCompleteIconClicked() {
+            this.isInEditMode = false
+            this.isButtonDisabled = false
+            this.$emit('updateTask', this.editedTaskDescription, this.task.id)
+        },
         deleteButtonClicked() {
             this.$emit('delete', this.task.id)
-        }
+        },
     },
 }
 </script>
