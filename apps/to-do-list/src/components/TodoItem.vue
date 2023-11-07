@@ -46,6 +46,9 @@ export default {
         moveToCompletedButtonClicked() {
             this.$emit('moveToCompleted', this.task.id)
         },
+        makeActiveButtonClicked() {
+            this.$emit('moveToActive', this.task.id)
+        }
     },
 }
 </script>

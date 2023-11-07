@@ -109,6 +109,10 @@ export default {
         focusAddTaskDescriptionInput() {
             this.$refs.taskDescriptionInput.focus()
         },
+        // getCurrentDate() {
+        //     let today = new Date()
+        //     return today
+        // },
         updateTaskDescription(updatedDescription, id) {
             const taskToUpdate = this.taskList.find((task) => {
                 if (task.id === id) {
@@ -138,6 +142,7 @@ export default {
         },
         findTaskToMoveToActive(id) {
             const taskToMoveToActive = this.taskList.find((task) => {
+                
                 if (task.id === id) {
                     return true
                 }
