@@ -58,3 +58,9 @@
     padding-left: 20px;
     padding-right: 20px;
 }
+
+.deleteAllButton {
+    width: 120px;
+    margin-right: 20px;
+    float: right;
+}

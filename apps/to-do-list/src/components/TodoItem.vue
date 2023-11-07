@@ -8,7 +8,8 @@
             <img src="../../public/checkmark.png" width="16" :class="$style.editCompleteIcon" @click="editCompleteIconClicked">
         </div>
         <div>
-            <button :disabled="isButtonDisabled">Completed</button>
+            <button v-if="!task.completion" @click="moveToCompletedButtonClicked" :disabled="isButtonDisabled">Completed</button>
+            <button v-if="task.completion" @click="makeActiveButtonClicked">Make active</button>
             <button @click="editButtonClicked" :disabled="isButtonDisabled">Edit</button>
             <button @click="deleteButtonClicked">Delete</button>
         </div>
@@ -41,6 +42,9 @@ export default {
         },
         deleteButtonClicked() {
             this.$emit('delete', this.task.id)
+        },
+        moveToCompletedButtonClicked() {
+            this.$emit('moveToCompleted', this.task.id)
         },
     },
 }
