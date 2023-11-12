@@ -49,11 +49,24 @@
         <section>
             <button :class="$style.deleteAllButton" @click="deleteAllTasks">Delete all tasks</button>
         </section>
+
+        <!-- <section :class="[$style.completedTasksSection, $style.card]">
+            <div :class="$style.listHeader">
+                <h2>
+                    Tasks from the server
+                </h2>
+                <div></div>
+            </div>
+            <template v-for="task in fetchedTasks">
+                <TodoItem :task="task" />
+            </template>
+        </section> -->
     </div>
 </template>
 
 <script>
 import TodoItem from '../../components/TodoItem.vue'
+import axios from 'axios'
 
 export default {
     name: 'TodoList',
@@ -67,6 +80,7 @@ export default {
             newTaskId: 0,
             taskList: [],
             isCompleted: false,
+            fetchedTasks: [],
         }
     },
     computed: {
@@ -92,7 +106,7 @@ export default {
         }
     },
     methods: {
-        addListItem() {
+        async addListItem() {
             const task = {
                 description: this.newTaskDescription,
                 dueDate: this.newTaskDueDate,
@@ -105,6 +119,17 @@ export default {
                 this.newTaskDescription = ''
             }
             this.focusAddTaskDescriptionInput()
+
+            // axios.get - read some data, must be idempotent - kinda like a pure function where you avoid side effects in the database.
+            //   Doesn't have a body
+            // axios.post - create new entries in the database
+            //   Has a body with data (an object) used to create a new entry
+            // axios.put - update an existing entry
+            //   Has a body with data (an object) used to update an entry
+            // axios.delete - delete an entry
+            //   Doesn't have a body
+            // const tasks = await axios.post('http://localhost:3000/api/task/create', task)
+            // this.fetchedTasks = tasks.data
         },
         focusAddTaskDescriptionInput() {
             this.$refs.taskDescriptionInput.focus()

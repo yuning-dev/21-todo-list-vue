@@ -1,0 +1,16 @@
+{
+  "name": "to-do-list-vue",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "test",
+    "build:prod": "cd apps/to-do-list/ && npm run build && cd ../../ && pwd && rm -r views/to-do-list && cp -r apps/to-do-list/dist/ views/to-do-list"
+  },
+  "author": "Yuning",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "express": "^4.18.2"
+  }
+}
