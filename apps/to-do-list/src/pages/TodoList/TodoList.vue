@@ -10,11 +10,11 @@
             </p>
             <div :class="$style.addItemContainer">
                 <label>
-                    Task description
+                    Task description:
                     <input type="text" :class="$style.addItemField" v-model="newTaskDescription" @keyup.enter="addListItem" ref="taskDescriptionInput"/>
                 </label>
                 <label>
-                    Due date
+                    Due date:
                     <input type="date" :class="$style.dueDate" v-model="newTaskDueDate" />
                 </label>
                 <label>
@@ -32,7 +32,7 @@
                 <button @click="deleteActiveTasks">Delete active tasks</button>
             </div>
             <template v-for="task in activeTasksList">
-                <TodoItem :task="task" @delete="deleteTaskItem" @updateTask="updateTaskDescription" @moveToCompleted="findTaskToMoveToCompleted" />
+                <TodoItem :task="task" @delete="deleteTaskItem" @updateTask="updateTaskDescriptionAndDueDate" @moveToCompleted="findTaskToMoveToCompleted" />
             </template>
         </section>
         <section :class="[$style.completedTasksSection, $style.card]">
@@ -43,7 +43,7 @@
                 <button @click="deleteCompletedTasks">Delete completed tasks</button>
             </div>
             <template v-for="task in completedTasksList">
-                <TodoItem :task="task" @delete="deleteTaskItem" @updateTask="updateTaskDescription" @moveToActive="findTaskToMoveToActive"/>
+                <TodoItem :task="task" @delete="deleteTaskItem" @updateTask="updateTaskDescriptionAndDueDate" @moveToActive="findTaskToMoveToActive"/>
             </template>
         </section>
         <section>
@@ -83,6 +83,11 @@ export default {
             fetchedTasks: [],
         }
     },
+    // mounted() {
+    //     const timeNow = new Date()
+    //     console.log(timeNow.toString())
+    //     this.newTaskDueDate.min = timeNow.toString()
+    // },
     computed: {
         activeTasksList() {
             let activeTasksList = []
@@ -111,7 +116,8 @@ export default {
                 description: this.newTaskDescription,
                 dueDate: this.newTaskDueDate,
                 id: this.newTaskId,
-                completion: this.isCompleted
+                completion: this.isCompleted,
+                daysToDeadline: this.getDaysUntilDeadline()
             }
             if (this.newTaskDescription !== '') {
                 this.taskList.push(task)
@@ -119,6 +125,7 @@ export default {
                 this.newTaskDescription = ''
             }
             this.focusAddTaskDescriptionInput()
+            this.getDaysUntilDeadline()
 
             // axios.get - read some data, must be idempotent - kinda like a pure function where you avoid side effects in the database.
             //   Doesn't have a body
@@ -134,11 +141,7 @@ export default {
         focusAddTaskDescriptionInput() {
             this.$refs.taskDescriptionInput.focus()
         },
-        // getCurrentDate() {
-        //     let today = new Date()
-        //     return today
-        // },
-        updateTaskDescription(updatedDescription, id) {
+        updateTaskDescriptionAndDueDate(updatedDescription, updatedDueDate, id) {
             const taskToUpdate = this.taskList.find((task) => {
                 if (task.id === id) {
                     return true
@@ -146,6 +149,7 @@ export default {
                 return false
             })
             taskToUpdate.description = updatedDescription
+            taskToUpdate.dueDate = updatedDueDate
         },
         deleteTaskItem(id) {
             const taskListWithTaskRemoved = this.taskList.filter((task) => {
@@ -195,6 +199,13 @@ export default {
         },
         deleteAllTasks() {
             this.taskList = []
+        },
+        getDaysUntilDeadline() {
+            const deadline = Date.parse(this.newTaskDueDate)
+            const timeNow = Date.now()
+            const dateNow = timeNow - (timeNow % 86400000)
+            const daysToDeadline = (deadline - dateNow) /1000/60/60/24
+            return daysToDeadline
         },
     },
 }

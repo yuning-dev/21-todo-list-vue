@@ -7,10 +7,22 @@
     border-radius: 10px;
 }
 
+.taskDescriptionContainer {
+    width: 40%;
+}
+
 .editCompleteIcon {
     margin-left: 5px;
 }
 
 .editCompleteIcon:hover {
     cursor: pointer;
+}
+
+.orange {
+    color: orange;
+}
+
+.red {
+    color: red;
 }
