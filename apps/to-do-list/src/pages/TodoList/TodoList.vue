@@ -15,7 +15,7 @@
                 </label>
                 <label>
                     Due date:
-                    <input type="date" :class="$style.dueDate" v-model="newTaskDueDate" />
+                    <input type="date" :class="$style.dueDate" v-model="newTaskDueDate" :min="dateOfToday()"/>
                 </label>
                 <label>
                     <button @click="addListItem">
@@ -29,27 +29,59 @@
                 <h2>
                     Active tasks
                 </h2>
-                <button @click="deleteActiveTasks">Delete active tasks</button>
+                <button @click="deleteActiveBtnClicked">Delete active tasks</button>
             </div>
             <template v-for="task in activeTasksList">
                 <TodoItem :task="task" @delete="deleteTaskItem" @updateTask="updateTaskDescriptionAndDueDate" @moveToCompleted="findTaskToMoveToCompleted" />
             </template>
         </section>
+        <template v-if="modalDeleteActive">
+            <ModalWindow>
+                <template v-slot>
+                    Are you sure you want to delete all the active tasks?
+                    <div :class="$style.modalBtnContainer">
+                        <button :class="$style.modalOptionBtn" @click="deleteActiveTasks">Yes</button>
+                        <button :class="$style.modalOptionBtn" @click="closeModal">Cancel</button>
+                    </div>
+                </template>
+            </ModalWindow>
+        </template>
         <section :class="[$style.completedTasksSection, $style.card]">
             <div :class="$style.listHeader">
                 <h2>
                     Completed tasks
                 </h2>
-                <button @click="deleteCompletedTasks">Delete completed tasks</button>
+                <button @click="deleteCompletedBtnClicked">Delete completed tasks</button>
             </div>
             <template v-for="task in completedTasksList">
                 <TodoItem :task="task" @delete="deleteTaskItem" @updateTask="updateTaskDescriptionAndDueDate" @moveToActive="findTaskToMoveToActive"/>
             </template>
         </section>
+        <template v-if="modalDeleteCompleted">
+            <ModalWindow>
+                <template v-slot>
+                    Are you sure you want to delete all the completed tasks?
+                    <div :class="$style.modalBtnContainer">
+                        <button :class="$style.modalOptionBtn" @click="deleteCompletedTasks">Yes</button>
+                        <button :class="$style.modalOptionBtn" @click="closeModal">Cancel</button>
+                    </div>
+                </template>
+            </ModalWindow>
+        </template>
         <section>
-            <button :class="$style.deleteAllButton" @click="deleteAllTasks">Delete all tasks</button>
+            <button :class="$style.deleteAllButton" @click="deleteAllBtnClicked">Delete all tasks</button>
         </section>
-
+        <template v-if="modalDeleteAll">
+            <ModalWindow>
+                <template v-slot>
+                    Are you sure you want to delete all the tasks?
+                    <div :class="$style.modalBtnContainer">
+                        <button :class="$style.modalOptionBtn" @click="deleteAllTasks">Yes</button>
+                        <button :class="$style.modalOptionBtn" @click="closeModal">Cancel</button>
+                    </div>
+                </template>                
+            </ModalWindow>
+        </template>
         <!-- <section :class="[$style.completedTasksSection, $style.card]">
             <div :class="$style.listHeader">
                 <h2>
@@ -66,12 +98,14 @@
 
 <script>
 import TodoItem from '../../components/TodoItem.vue'
+import ModalWindow from '../../components/ModalWindow.vue'
 import axios from 'axios'
 
 export default {
     name: 'TodoList',
     components: {
-        TodoItem
+        TodoItem,
+        ModalWindow,
     },
     data() {
         return {
@@ -81,6 +115,9 @@ export default {
             taskList: [],
             isCompleted: false,
             fetchedTasks: [],
+            modalDeleteAll: false,
+            modalDeleteActive: false,
+            modalDeleteCompleted: false,
         }
     },
     // mounted() {
@@ -117,15 +154,15 @@ export default {
                 dueDate: this.newTaskDueDate,
                 id: this.newTaskId,
                 completion: this.isCompleted,
-                daysToDeadline: this.getDaysUntilDeadline()
+                // daysToDeadline: this.getDaysUntilDeadline()
             }
-            if (this.newTaskDescription !== '') {
+            if (this.newTaskDescription !== '' && this.newTaskDueDate !== '') {
                 this.taskList.push(task)
                 this.newTaskId++
                 this.newTaskDescription = ''
             }
             this.focusAddTaskDescriptionInput()
-            this.getDaysUntilDeadline()
+            // this.getDaysUntilDeadline()
 
             // axios.get - read some data, must be idempotent - kinda like a pure function where you avoid side effects in the database.
             //   Doesn't have a body
@@ -179,6 +216,9 @@ export default {
             })
             taskToMoveToActive.completion = false
         },
+        deleteActiveBtnClicked() {
+            this.modalDeleteActive = true
+        },
         deleteActiveTasks() {
             const completedTasksList = this.taskList.filter((task) => {
                 if (task.completion) {
@@ -187,6 +227,10 @@ export default {
                 return false
             })
             this.taskList = completedTasksList
+            this.closeModal()
+        },
+        deleteCompletedBtnClicked() {
+            this.modalDeleteCompleted = true
         },
         deleteCompletedTasks() {
             const activeTasksList = this.taskList.filter((task) => {
@@ -196,16 +240,32 @@ export default {
                 return false
             })
             this.taskList = activeTasksList
+            this.closeModal()
+        },
+        deleteAllBtnClicked() {
+            this.modalDeleteAll = true
         },
         deleteAllTasks() {
             this.taskList = []
+            this.closeModal()
         },
-        getDaysUntilDeadline() {
-            const deadline = Date.parse(this.newTaskDueDate)
-            const timeNow = Date.now()
-            const dateNow = timeNow - (timeNow % 86400000)
-            const daysToDeadline = (deadline - dateNow) /1000/60/60/24
-            return daysToDeadline
+        // getDaysUntilDeadline() {
+        //     const deadline = Date.parse(this.newTaskDueDate)
+        //     const timeNow = Date.now()
+        //     const dateNow = timeNow - (timeNow % 86400000)
+        //     const daysToDeadline = (deadline - dateNow) /1000/60/60/24
+        //     return daysToDeadline
+        // },
+        dateOfToday() {
+            const today = new Date()
+            const todayInString = today.toISOString()
+            const dateInString = todayInString.substring(0,10)
+            return dateInString
+        },
+        closeModal() {
+            this.modalDeleteAll = false
+            this.modalDeleteActive = false
+            this.modalDeleteCompleted = false
         },
     },
 }
