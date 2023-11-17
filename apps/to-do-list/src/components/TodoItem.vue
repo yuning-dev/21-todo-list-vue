@@ -18,7 +18,7 @@
             <div v-if="task.completion">
                 Due date: {{ task.dueDate }}
             </div>
-            <img src="../../public/checkmark.png" width="16" :class="$style.editCompleteIcon" @click="editCompleteIconClicked">
+            <button :class="$style.editCompleteBtn" @click="editCompleteBtnClicked">Edit complete</button>
         </template>
         <div>
             <button v-if="!task.completion" @click="moveToCompletedButtonClicked" :disabled="isButtonDisabled">Completed</button>
@@ -43,19 +43,28 @@ export default {
             editedDueDate: this.task.dueDate,
             isInEditMode: false,
             isButtonDisabled: false,
-            isRed: false,
-            isOrange: false,
+            daysToDeadline: this.getDaysUntilDeadline(),
+            // isRed: false,
+            // isOrange: false,
         }
     },
     // mounted() {
     //     this.setDueDateColor(this.task.dueDate)
     // },
+    computed: {
+        isOrange() {
+            return 0 < this.daysToDeadline && this.daysToDeadline <= 1
+        },
+        isRed() {
+            return this.daysToDeadline <= 0
+        }
+    },
     methods: {
         editButtonClicked() {
             this.isButtonDisabled = true
             this.isInEditMode = true
         },
-        editCompleteIconClicked() {
+        editCompleteBtnClicked() {
             this.isInEditMode = false
             this.isButtonDisabled = false
             // this.setDueDateColor(this.editedDueDate)
@@ -69,6 +78,13 @@ export default {
         },
         makeActiveButtonClicked() {
             this.$emit('moveToActive', this.task.id)
+        },
+        getDaysUntilDeadline() {
+            const deadline = Date.parse(this.task.dueDate)
+            const timeNow = Date.now()
+            const dateNow = timeNow - (timeNow % 86400000)
+            const daysToDeadline = (deadline - dateNow) / 1000 / 60 / 60 / 24
+            return daysToDeadline
         },
         // setDueDateColor(date) {
         //     const deadline = Date.parse(date)
@@ -86,25 +102,6 @@ export default {
         //     }
         // },
     },
-    computed: {
-        setDueDateColor() {
-            console.log('Im called')
-            const deadline = Date.parse(this.task.dueDate)
-            const timeNow = Date.now()
-            const dateNow = timeNow - (timeNow % 86400000)
-            console.log(dateNow)
-            const daysToDeadline = (deadline - dateNow) / 1000 / 60 / 60 / 24
-            if (daysToDeadline <= 0) {
-                console.log('red')
-                return this.isRed
-            } else if (daysToDeadline <= 1) {
-                console.log('orange')
-                return this.isOrange
-            }
-            console.log('no color') 
-            return
-        },
-    }
 }
 </script>
 
