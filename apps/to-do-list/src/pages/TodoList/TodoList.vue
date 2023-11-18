@@ -82,17 +82,6 @@
                 </template>                
             </ModalWindow>
         </template>
-        <!-- <section :class="[$style.completedTasksSection, $style.card]">
-            <div :class="$style.listHeader">
-                <h2>
-                    Tasks from the server
-                </h2>
-                <div></div>
-            </div>
-            <template v-for="task in fetchedTasks">
-                <TodoItem :task="task" />
-            </template>
-        </section> -->
     </div>
 </template>
 
@@ -120,11 +109,15 @@ export default {
             modalDeleteCompleted: false,
         }
     },
-    // mounted() {
-    //     const timeNow = new Date()
-    //     console.log(timeNow.toString())
-    //     this.newTaskDueDate.min = timeNow.toString()
-    // },
+    async mounted() {
+        // const timeNow = new Date()
+        // console.log(timeNow.toString())
+        // this.newTaskDueDate.min = timeNow.toString()
+
+        // This is how you could fetch the tasks initially
+        // const response = axios.get('http://localhost:3000/api/tasks')
+        // this.taskList = response.data
+    },
     computed: {
         activeTasksList() {
             let activeTasksList = []
@@ -172,6 +165,9 @@ export default {
             //   Has a body with data (an object) used to update an entry
             // axios.delete - delete an entry
             //   Doesn't have a body
+
+            // The first parameter is the URL and the second parameter is the body
+            // (the data you're passing to the backend)
             // const tasks = await axios.post('http://localhost:3000/api/task/create', task)
             // this.fetchedTasks = tasks.data
         },

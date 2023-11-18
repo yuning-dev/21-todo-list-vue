@@ -13,38 +13,20 @@ app.get('/', (req, res) => {
     res.sendFile(path + 'index.html')
 })
 
-// app.post('/api/task/create', () => {})
-// app.get('/api/task/', () => {})
-// app.put('/api/task/update', () => {})
-// app.delete('/api/task/delete', () => {})
-
-app.post('/api/task/create', (req, res) => {
-    const tasks = JSON.parse(fs.readFileSync('tasks.json', 'utf8'))
-    const newTask = req.body
-
-    if (!req.body.description) {
-        return res.send(400)
-    }
-
-    console.log(req.body)
-
-    tasks.push(newTask)
-
-    fs.writeFileSync('tasks.json', JSON.stringify(tasks, null, 2))
-
-    return res.send(200, tasks) // 200 is a HTTP status code
-    // Codes 2xx = success
-    // Codes 3xx = redirect
-    // Codes 4xx = client error
-    // Codes 5xx = server error
-})
-
 app.listen(port, () => {
     console.log(`Todo list app listening on port ${port}`)
 })
 
+// Set up the "routes", basically the URLs that the endpoints will run from
 
-// Example of what `get` might look like
+// Imports the routes/index.js file. If you import a folder (routes in this case)
+// it will implicitly import the index.js file from that folder by default.
+const setUpRoutes = require('./routes')
+
+setUpRoutes(app)
+
+
+// Example of what the `get` express function might look like
 // const app = {
 //     get: (path, callback) => {
 //         ...
