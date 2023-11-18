@@ -103,7 +103,6 @@ export default {
             newTaskId: 0,
             taskList: [],
             isCompleted: false,
-            fetchedTasks: [],
             modalDeleteAll: false,
             modalDeleteActive: false,
             modalDeleteCompleted: false,
@@ -168,8 +167,7 @@ export default {
 
             // The first parameter is the URL and the second parameter is the body
             // (the data you're passing to the backend)
-            // const tasks = await axios.post('http://localhost:3000/api/task/create', task)
-            // this.fetchedTasks = tasks.data
+            await axios.post('http://localhost:3000/api/task', task)
         },
         focusAddTaskDescriptionInput() {
             this.$refs.taskDescriptionInput.focus()
