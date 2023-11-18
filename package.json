@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "test",
-    "build:prod": "cd apps/to-do-list/ && npm run build && cd ../../ && pwd && rm -r views/to-do-list && cp -r apps/to-do-list/dist/ views/to-do-list"
+    "dev": "node index.js",
+    "build:prod": "npm install && cd apps/to-do-list/ && npm install && npm run build && cd ../../ && pwd && (rm -r views || true) && mkdir \"views/to-do-list\" && cp -r apps/to-do-list/dist/* views/to-do-list"
   },
   "author": "Yuning",
   "license": "ISC",
