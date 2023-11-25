@@ -1,16 +1,13 @@
 <script setup>
+import TopBar from '@/components/TopBar/TopBar.vue'
 </script>
 
 <template>
   <header>
-    <div class="wrapper">
-    
-    </div>
+    <TopBar />
   </header>
 
   <main>
-    <router-link to="/">Go to Home</router-link>
-    <router-link to="/account">Log in or create an account</router-link>
     <router-view></router-view>
   </main>
 </template>

@@ -1,0 +1,17 @@
+.wrapper {
+    background-color: #f4effd;
+}
+
+.items {
+    display: flex;
+}
+
+.item {
+    text-decoration: none;
+    color: black;
+    padding: 3px 40px;
+}
+
+.item:hover {
+    background-color: #e9dffc;
+}

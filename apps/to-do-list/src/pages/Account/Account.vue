@@ -1,5 +1,7 @@
 <template>
     Hi I'm accounts.
+
+    <router-view></router-view>
 </template>
 
 <script>
