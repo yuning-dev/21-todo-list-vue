@@ -1,12 +1,6 @@
 import './assets/main.css'
 import { createRouter, createWebHashHistory } from 'vue-router'
-import TodoList from './pages/TodoList/TodoList.vue'
-import Account from './pages/Account/Account.vue'
-
-const routes = [
-    { path: '/', component: TodoList },
-    { path: '/account', component: Account },
-]
+import routes from './routes'
 
 const router = createRouter({
     history: createWebHashHistory(),
