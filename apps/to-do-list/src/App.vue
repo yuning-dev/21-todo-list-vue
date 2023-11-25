@@ -1,16 +1,17 @@
 <script setup>
-import TodoList from './pages/TodoList/TodoList.vue'
 </script>
 
 <template>
   <header>
     <div class="wrapper">
-      
+    
     </div>
   </header>
 
   <main>
-    <TodoList />
+    <router-link to="/">Go to Home</router-link>
+    <router-link to="/account">Log in or create an account</router-link>
+    <router-view></router-view>
   </main>
 </template>
 
