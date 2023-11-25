@@ -4,7 +4,10 @@
             <div :class="$style.taskDescriptionContainer">
                 {{ task.description }}
             </div>
-            <div :class="{ [$style.orange]: isOrange, [$style.red]: isRed }">
+            <div v-if="!task.completion" :class="{ [$style.orange]: isOrange, [$style.red]: isRed }">
+                Due date: {{ task.dueDate }}
+            </div>
+            <div v-if="task.completion">
                 Due date: {{ task.dueDate }}
             </div>
         </template>
@@ -13,19 +16,19 @@
                 Task description <input type="text" v-model="editedTaskDescription" />
             </div>
             <div v-if="!task.completion">
-                Due date <input type="date" v-model="editedDueDate">
+                Due date <input type="date" v-model="editedDueDate" :min="dateOfToday()">
             </div>
             <div v-if="task.completion">
                 Due date: {{ task.dueDate }}
             </div>
-            <button :class="$style.editCompleteBtn" @click="editCompleteBtnClicked">Edit complete</button>
+            <button :class="[$style.editCompleteBtn, $style.button]" @click="editCompleteBtnClicked">Edit complete</button>
         </template>
         <div>
-            <button v-if="!task.completion" @click="moveToCompletedButtonClicked" :disabled="isButtonDisabled">Completed</button>
-            <button v-if="task.completion" @click="makeActiveButtonClicked">Make active</button>
-            <button v-if="!task.completion" @click="editButtonClicked" :disabled="isButtonDisabled">Edit</button>
-            <button v-if="task.completion" @click="editButtonClicked" :disabled="isButtonDisabled">Edit description</button>
-            <button @click="deleteButtonClicked">Delete</button>
+            <button :class="$style.button" v-if="!task.completion" @click="moveToCompletedButtonClicked" :disabled="isButtonDisabled">Completed</button>
+            <button :class="$style.button" v-if="task.completion" @click="makeActiveButtonClicked">Make active</button>
+            <button :class="$style.button" v-if="!task.completion" @click="editButtonClicked" :disabled="isButtonDisabled">Edit</button>
+            <button :class="$style.button" v-if="task.completion" @click="editButtonClicked" :disabled="isButtonDisabled">Edit description</button>
+            <button :class="$style.button" @click="deleteButtonClicked">Delete</button>
         </div>
     </div>
 </template>
@@ -43,7 +46,6 @@ export default {
             editedDueDate: this.task.dueDate,
             isInEditMode: false,
             isButtonDisabled: false,
-            daysToDeadline: this.getDaysUntilDeadline(),
             // isRed: false,
             // isOrange: false,
         }
@@ -52,6 +54,13 @@ export default {
     //     this.setDueDateColor(this.task.dueDate)
     // },
     computed: {
+        daysToDeadline() {
+            const deadline = Date.parse(this.task.dueDate)
+            const timeNow = Date.now()
+            const dateNow = timeNow - (timeNow % 86400000)
+            const daysToDeadline = (deadline - dateNow) / 1000 / 60 / 60 / 24
+            return daysToDeadline
+        },
         isOrange() {
             return 0 < this.daysToDeadline && this.daysToDeadline <= 1
         },
@@ -79,12 +88,11 @@ export default {
         makeActiveButtonClicked() {
             this.$emit('moveToActive', this.task.id)
         },
-        getDaysUntilDeadline() {
-            const deadline = Date.parse(this.task.dueDate)
-            const timeNow = Date.now()
-            const dateNow = timeNow - (timeNow % 86400000)
-            const daysToDeadline = (deadline - dateNow) / 1000 / 60 / 60 / 24
-            return daysToDeadline
+        dateOfToday() {
+            const today = new Date()
+            const todayInString = today.toISOString()
+            const dateInString = todayInString.substring(0,10)
+            return dateInString
         },
         // setDueDateColor(date) {
         //     const deadline = Date.parse(date)

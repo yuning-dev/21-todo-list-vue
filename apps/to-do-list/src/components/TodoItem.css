@@ -1,10 +1,32 @@
+.button {
+    padding: 5px 8px;
+    margin-left: 2px;
+    border-radius: 3px;
+    color: 	#404040;
+    background: #cae3eb;
+    border: 1px solid #4ecaec;
+}
+
+.button:hover {
+    color: 	#404040;
+    background: #A4DDED;
+    border-color: #A4DDED;
+}
+
+.button:disabled {
+    background: white;
+    color: 	#A9A9A9;
+    border-color: #A9A9A9;
+}
+
 .wrapper {
     display: flex;
     justify-content: space-between;
-    border: 1px solid rgb(193, 191, 191);
+    border: 1px solid #4ecaec;
     padding: 10px;
     margin-top: 8px;
     border-radius: 10px;
+    background: white;
 }
 
 .taskDescriptionContainer {
@@ -20,9 +42,9 @@
 }
 
 .orange {
-    color: orange;
+    color: #FF7F50;
 }
 
 .red {
-    color: red;
+    color: #E60026;
 }

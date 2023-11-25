@@ -1,20 +1,64 @@
+body {
+    font-family: Helvetica, Arial, sans-serif;
+}
+
 .wrapper {
     display: flex;
     flex-direction: column;
     gap: 30px;
     max-width: 1000px;
     margin: 0 auto;
+    padding: 5px 30px;
 }
 
 .card {
-    border: 1px solid rgb(193, 191, 191);
+    border: 1px solid #7743db;
     border-radius: 10px;
-    background-color: aliceblue;
     padding: 12px 0 20px 0;
+    background: #f1eaff;
+}
+
+.button {
+    padding: 5px 8px;
+    border-radius: 3px;
+    border: 1px solid rgb(255, 162, 0);
+    background: #ffd4b7;
+    color: 	#404040;
+    font-size: 1.005em;
+}
+
+.button:hover {
+    background: rgb(255, 181, 54);
+    border-color: rgb(255, 181, 54);
+}
+
+.addButton {
+    color: 	#404040;
+    background: #cdf5fd;
+    border: 1px solid #4ecaec;
+}
+
+.addButton:hover {
+    color: 	#404040;
+    background: #a0e9ff;
+    border-color: #a0e9ff;
+}
+
+.cancelButton {
+    color: #404040;
+    background: rgb(235, 235, 235);
+    border: 1px solid grey;
+}
+
+.cancelButton:hover {
+    background: rgb(208, 208, 208);
+    border-color: rgb(208, 208, 208);
 }
 
 .header {
     margin-top: 20px;
+    padding-right: 20px;
+    padding-left: 20px;
 }
 
 .addItemContainer {
@@ -60,7 +104,6 @@
 }
 
 .deleteAllButton {
-    width: 120px;
     margin-right: 20px;
     float: right;
 }

@@ -17,11 +17,11 @@
                     Due date:
                     <input type="date" :class="$style.dueDate" v-model="newTaskDueDate" :min="dateOfToday()"/>
                 </label>
-                <label>
-                    <button @click="addListItem">
+                <div>
+                    <button :class="[$style.addButton, $style.button]" @click="addListItem">
                         Add list item
                     </button>
-                </label>
+                </div>
             </div>
         </section>
         <section :class="[$style.activeTasksSection, $style.card]">
@@ -29,19 +29,19 @@
                 <h2>
                     Active tasks
                 </h2>
-                <button @click="deleteActiveBtnClicked">Delete active tasks</button>
+                <button :class="$style.button" @click="deleteActiveBtnClicked">Delete active tasks</button>
             </div>
             <template v-for="task in activeTasksList">
                 <TodoItem :task="task" @delete="deleteTaskItem" @updateTask="updateTaskDescriptionAndDueDate" @moveToCompleted="findTaskToMoveToCompleted" />
             </template>
         </section>
         <template v-if="modalDeleteActive">
-            <ModalWindow>
+            <ModalWindow @closeModal="closeModal">
                 <template v-slot>
                     Are you sure you want to delete all the active tasks?
                     <div :class="$style.modalBtnContainer">
-                        <button :class="$style.modalOptionBtn" @click="deleteActiveTasks">Yes</button>
-                        <button :class="$style.modalOptionBtn" @click="closeModal">Cancel</button>
+                        <button :class="$style.button" @click="deleteActiveTasks">Yes</button>
+                        <button :class="[$style.button, $style.cancelButton]" @click="closeModal">Cancel</button>
                     </div>
                 </template>
             </ModalWindow>
@@ -51,33 +51,33 @@
                 <h2>
                     Completed tasks
                 </h2>
-                <button @click="deleteCompletedBtnClicked">Delete completed tasks</button>
+                <button :class="$style.button" @click="deleteCompletedBtnClicked">Delete completed tasks</button>
             </div>
             <template v-for="task in completedTasksList">
                 <TodoItem :task="task" @delete="deleteTaskItem" @updateTask="updateTaskDescriptionAndDueDate" @moveToActive="findTaskToMoveToActive"/>
             </template>
         </section>
         <template v-if="modalDeleteCompleted">
-            <ModalWindow>
+            <ModalWindow @closeModal="closeModal">
                 <template v-slot>
                     Are you sure you want to delete all the completed tasks?
                     <div :class="$style.modalBtnContainer">
-                        <button :class="$style.modalOptionBtn" @click="deleteCompletedTasks">Yes</button>
-                        <button :class="$style.modalOptionBtn" @click="closeModal">Cancel</button>
+                        <button :class="$style.button" @click="deleteCompletedTasks">Yes</button>
+                        <button :class="[$style.button, $style.cancelButton]" @click="closeModal">Cancel</button>
                     </div>
                 </template>
             </ModalWindow>
         </template>
         <section>
-            <button :class="$style.deleteAllButton" @click="deleteAllBtnClicked">Delete all tasks</button>
+            <button :class="[$style.button, $style.deleteAllButton]" @click="deleteAllBtnClicked">Delete all tasks</button>
         </section>
         <template v-if="modalDeleteAll">
-            <ModalWindow>
+            <ModalWindow @closeModal="closeModal">
                 <template v-slot>
                     Are you sure you want to delete all the tasks?
                     <div :class="$style.modalBtnContainer">
-                        <button :class="$style.modalOptionBtn" @click="deleteAllTasks">Yes</button>
-                        <button :class="$style.modalOptionBtn" @click="closeModal">Cancel</button>
+                        <button :class="$style.button" @click="deleteAllTasks">Yes</button>
+                        <button :class="[$style.button, $style.cancelButton]" @click="closeModal">Cancel</button>
                     </div>
                 </template>                
             </ModalWindow>
@@ -217,7 +217,9 @@ export default {
             taskToMoveToActive.completion = false
         },
         deleteActiveBtnClicked() {
-            this.modalDeleteActive = true
+            if (this.activeTasksList.length > 0) {
+                this.modalDeleteActive = true
+            }
         },
         deleteActiveTasks() {
             const completedTasksList = this.taskList.filter((task) => {
@@ -230,7 +232,9 @@ export default {
             this.closeModal()
         },
         deleteCompletedBtnClicked() {
-            this.modalDeleteCompleted = true
+            if (this.completedTasksList.length > 0) {
+                this.modalDeleteCompleted = true
+            }
         },
         deleteCompletedTasks() {
             const activeTasksList = this.taskList.filter((task) => {
@@ -243,7 +247,9 @@ export default {
             this.closeModal()
         },
         deleteAllBtnClicked() {
-            this.modalDeleteAll = true
+            if (this.taskList.length > 0) {
+                this.modalDeleteAll = true
+            }
         },
         deleteAllTasks() {
             this.taskList = []

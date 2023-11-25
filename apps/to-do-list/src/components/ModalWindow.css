@@ -11,6 +11,7 @@
 }
 
 .modalContent {
+    border: 1px solid #7743db;
     text-align: center;
     background-color: rgba(254,254,254);
     padding: 10px;
@@ -25,6 +26,8 @@
     background: crimson;
     float: right;
     border: none;
+    font-size: 1.1em;
+    padding: 0 5px;
 }
 
 .closeBtn:hover {

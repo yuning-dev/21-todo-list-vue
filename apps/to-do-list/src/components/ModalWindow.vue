@@ -14,7 +14,11 @@
 
 export default {
     name: 'ModalWindow',
-
+    methods: {
+        closeBtnClicked() {
+            this.$emit('closeModal')
+        }
+    }
 }
 
 </script>
