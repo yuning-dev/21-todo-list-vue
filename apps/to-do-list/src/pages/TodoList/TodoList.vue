@@ -93,10 +93,34 @@
                 <TodoItem :task="task" />
             </template>
         </section> -->
+        <div @click="increment">
+            Testing store: {{ count }} {{ double }} 
+        </div>
     </div>
 </template>
 
+
 <script>
+
+import { mapStores } from 'pinia'
+import { defineStore } from 'pinia'
+import { mapState } from 'pinia'
+import { mapActions } from 'pinia'
+
+const useTaskStore = defineStore('tasks', {
+    state: () => ({
+        count: 0
+    }),
+    getters: {
+        double: (state) => state.count * 2
+    },
+    actions: {
+        increment() {
+            this.count++
+        }
+    },
+})
+
 import TodoItem from '../../components/TodoItem.vue'
 import ModalWindow from '../../components/ModalWindow.vue'
 import axios from 'axios'
@@ -126,6 +150,8 @@ export default {
     //     this.newTaskDueDate.min = timeNow.toString()
     // },
     computed: {
+        ...mapStores(useTaskStore),
+        ...mapState(useTaskStore, ['count', 'double']),
         activeTasksList() {
             let activeTasksList = []
             activeTasksList = this.taskList.filter((task) => {
@@ -148,6 +174,7 @@ export default {
         }
     },
     methods: {
+        ...mapActions(useTaskStore, ['increment']),
         async addListItem() {
             const task = {
                 description: this.newTaskDescription,
