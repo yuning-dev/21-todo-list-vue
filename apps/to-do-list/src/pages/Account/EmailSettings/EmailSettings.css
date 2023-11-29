@@ -1,0 +1,38 @@
+.wrapper {
+    padding: 20px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.emailInput {
+    display: block;
+    margin-top: 5px;
+    margin-bottom: 15px;
+}
+
+.warningWrapper {
+    color: crimson;
+}
+
+.button {
+    padding: 5px 8px;
+    margin-left: 2px;
+    border-radius: 3px;
+    color: 	#404040;
+    background: #cdf5fd;
+    border: 1px solid #4ecaec;
+    width: 70px;
+}
+
+.button:hover {
+    color: 	#404040;
+    background: #a0e9ff;
+    border-color: #a0e9ff;
+}
+
+.button:disabled {
+    background: white;
+    color: 	#A9A9A9;
+    border-color: #A9A9A9;
+}

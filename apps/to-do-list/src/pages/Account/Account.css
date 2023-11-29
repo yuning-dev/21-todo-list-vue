@@ -1,0 +1,32 @@
+.wrapper {
+    padding: 15px 40px;
+}
+
+.contentWrapper {
+    display: flex;
+}
+
+.title {
+    margin-left: 300px;
+}
+
+.sideBar {
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+    background: #e7f7ff;
+}
+
+.item {
+    text-decoration: none;
+    color: black;
+    padding: 5px 10px;
+}
+
+.item:hover {
+    background: #c5eaff;
+}
+
+.routedPageWrapper {
+    border: 1px solid hotpink;
+}

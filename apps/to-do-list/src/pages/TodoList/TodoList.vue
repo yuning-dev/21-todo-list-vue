@@ -15,7 +15,7 @@
                 </label>
                 <label>
                     Due date:
-                    <input type="date" :class="$style.dueDate" v-model="newTaskDueDate" :min="dateOfToday()"/>
+                    <input type="date" :class="$style.dueDate" v-model="newTaskDueDate" :min="dateOfToday()" />
                 </label>
                 <div>
                     <button :class="[$style.addButton, $style.button]" @click="addListItem">
@@ -93,9 +93,14 @@
                 <TodoItem :task="task" />
             </template>
         </section> -->
-        <div @click="increment">
-            Testing store: {{ count }} {{ double }} 
+        <!-- <div>
+           <p>Testing store:</p> 
+           taskList: {{ taskList }} 
         </div>
+        <div>
+            activeTasksList: {{ activeTasksList }} <br/>
+            completedTasksList: {{ completedTasksList }} 
+        </div> -->
     </div>
 </template>
 
@@ -103,23 +108,9 @@
 <script>
 
 import { mapStores } from 'pinia'
-import { defineStore } from 'pinia'
-import { mapState } from 'pinia'
+import { mapState, mapWritableState } from 'pinia'
 import { mapActions } from 'pinia'
-
-const useTaskStore = defineStore('tasks', {
-    state: () => ({
-        count: 0
-    }),
-    getters: {
-        double: (state) => state.count * 2
-    },
-    actions: {
-        increment() {
-            this.count++
-        }
-    },
-})
+import { useTaskStore } from '@/stores/TaskStore'
 
 import TodoItem from '../../components/TodoItem.vue'
 import ModalWindow from '../../components/ModalWindow.vue'
@@ -136,7 +127,7 @@ export default {
             newTaskDescription: '',
             newTaskDueDate: '',
             newTaskId: 0,
-            taskList: [],
+            // taskList: [],
             isCompleted: false,
             fetchedTasks: [],
             modalDeleteAll: false,
@@ -151,37 +142,22 @@ export default {
     // },
     computed: {
         ...mapStores(useTaskStore),
-        ...mapState(useTaskStore, ['count', 'double']),
-        activeTasksList() {
-            let activeTasksList = []
-            activeTasksList = this.taskList.filter((task) => {
-                if (task.completion) {
-                    return false
-                }
-                return true
-            })
-            return activeTasksList
-        },
-        completedTasksList() {
-            let completedTasksList = []
-            completedTasksList = this.taskList.filter((task) => {
-                if (!task.completion) {
-                    return false
-                }
-                return true
-            })
-            return completedTasksList
-        }
+        ...mapState(useTaskStore, [ 
+            'completedTasksList',
+            'activeTasksList', 
+        ]),
+        ...mapWritableState(useTaskStore, [
+            'taskList'
+        ])
     },
     methods: {
-        ...mapActions(useTaskStore, ['increment']),
+        ...mapActions(useTaskStore, ['dateOfToday']),
         async addListItem() {
             const task = {
                 description: this.newTaskDescription,
                 dueDate: this.newTaskDueDate,
                 id: this.newTaskId,
                 completion: this.isCompleted,
-                // daysToDeadline: this.getDaysUntilDeadline()
             }
             if (this.newTaskDescription !== '' && this.newTaskDueDate !== '') {
                 this.taskList.push(task)
@@ -189,7 +165,6 @@ export default {
                 this.newTaskDescription = ''
             }
             this.focusAddTaskDescriptionInput()
-            // this.getDaysUntilDeadline()
 
             // axios.get - read some data, must be idempotent - kinda like a pure function where you avoid side effects in the database.
             //   Doesn't have a body
@@ -206,41 +181,20 @@ export default {
             this.$refs.taskDescriptionInput.focus()
         },
         updateTaskDescriptionAndDueDate(updatedDescription, updatedDueDate, id) {
-            const taskToUpdate = this.taskList.find((task) => {
-                if (task.id === id) {
-                    return true
-                }
-                return false
-            })
+            const taskToUpdate = this.taskList.find((task) => task.id === id)
             taskToUpdate.description = updatedDescription
             taskToUpdate.dueDate = updatedDueDate
         },
         deleteTaskItem(id) {
-            const taskListWithTaskRemoved = this.taskList.filter((task) => {
-                if (task.id === id) {
-                    return false
-                } 
-                return true
-            })
+            const taskListWithTaskRemoved = this.taskList.filter((task) => task.id !== id)
             this.taskList = taskListWithTaskRemoved
         },
         findTaskToMoveToCompleted(id) {
-            const taskToMoveToCompleted = this.taskList.find((task) => {
-                if (task.id === id) {
-                    return true
-                }
-                return false
-            })
+            const taskToMoveToCompleted = this.taskList.find((task) => task.id === id)
             taskToMoveToCompleted.completion = true
         },
         findTaskToMoveToActive(id) {
-            const taskToMoveToActive = this.taskList.find((task) => {
-                
-                if (task.id === id) {
-                    return true
-                }
-                return false
-            })
+            const taskToMoveToActive = this.taskList.find((task) => task.id === id)
             taskToMoveToActive.completion = false
         },
         deleteActiveBtnClicked() {
@@ -249,13 +203,7 @@ export default {
             }
         },
         deleteActiveTasks() {
-            const completedTasksList = this.taskList.filter((task) => {
-                if (task.completion) {
-                    return true
-                }
-                return false
-            })
-            this.taskList = completedTasksList
+            this.taskList = this.completedTasksList
             this.closeModal()
         },
         deleteCompletedBtnClicked() {
@@ -264,13 +212,7 @@ export default {
             }
         },
         deleteCompletedTasks() {
-            const activeTasksList = this.taskList.filter((task) => {
-                if (!task.completion) {
-                    return true
-                }
-                return false
-            })
-            this.taskList = activeTasksList
+            this.taskList = this.activeTasksList
             this.closeModal()
         },
         deleteAllBtnClicked() {
@@ -281,19 +223,6 @@ export default {
         deleteAllTasks() {
             this.taskList = []
             this.closeModal()
-        },
-        // getDaysUntilDeadline() {
-        //     const deadline = Date.parse(this.newTaskDueDate)
-        //     const timeNow = Date.now()
-        //     const dateNow = timeNow - (timeNow % 86400000)
-        //     const daysToDeadline = (deadline - dateNow) /1000/60/60/24
-        //     return daysToDeadline
-        // },
-        dateOfToday() {
-            const today = new Date()
-            const todayInString = today.toISOString()
-            const dateInString = todayInString.substring(0,10)
-            return dateInString
         },
         closeModal() {
             this.modalDeleteAll = false

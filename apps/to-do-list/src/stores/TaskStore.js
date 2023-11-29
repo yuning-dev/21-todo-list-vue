@@ -2,14 +2,22 @@ import { defineStore } from 'pinia'
 
 export const useTaskStore = defineStore('tasks', {
     state: () => ({
-        count: 0
+        taskList: [],
     }),
     getters: {
-        double: (state) => state.count * 2
+        activeTasksList(state) {
+            return state.taskList.filter((task) => !task.completion)
+        },
+        completedTasksList(state) {
+            return state.taskList.filter((task) => task.completion)
+        },
     },
     actions: {
-        increment() {
-            this.count++
-        }
+        dateOfToday() {
+            const today = new Date()
+            const todayInString = today.toISOString()
+            const dateInString = todayInString.substring(0,10)
+            return dateInString
+        },
     },
 })

@@ -1,5 +1,8 @@
 <template>
-    Hi, I'm insightful
+    <div :class="$style.wrapper">
+        Hi, I'm insightful
+    </div>
+    
 </template>
 
 <script>
@@ -8,4 +11,4 @@ export default {
 }
 </script>
 
-<style src module="./Insights.css"></style>
+<style module src="./Insights.css"></style>
