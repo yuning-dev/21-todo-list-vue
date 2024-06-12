@@ -1,10 +1,10 @@
 <template>
     <div :class="$style.wrapper">
         <template v-if="!isInEditMode">
-            <div :class="$style.taskDescriptionContainer">
+            <div data-testid="description" :class="$style.taskDescriptionContainer">
                 {{ task.description }}
             </div>
-            <div v-if="!task.completion" :class="{ [$style.orange]: isOrange, [$style.red]: isRed }">
+            <div v-if="!task.completion" data-testid="dueDate" :class="{ [$style.orange]: isOrange, [$style.red]: isRed }">
                 Due date: {{ task.dueDate }}
             </div>
             <div v-if="task.completion">
@@ -13,22 +13,22 @@
         </template>
         <template v-else>
             <div>
-                Task description <input type="text" v-model="editedTaskDescription" />
+                Task description <input type="text" data-testid="editDescriptionInput" v-model="editedTaskDescription" />
             </div>
             <div v-if="!task.completion">
-                Due date <input type="date" v-model="editedDueDate" :min="dateOfToday()">
+                Due date <input type="date" data-testid="editDueDate" v-model="editedDueDate" :min="dateOfToday()">
             </div>
             <div v-if="task.completion">
                 Due date: {{ task.dueDate }}
             </div>
-            <button :class="[$style.editCompleteBtn, $style.button]" @click="editCompleteBtnClicked">Edit complete</button>
+            <button data-testid="editCompleteBtn" :class="[$style.editCompleteBtn, $style.button]" @click="editCompleteBtnClicked">Edit complete</button>
         </template>
         <div>
-            <button :class="$style.button" v-if="!task.completion" @click="moveToCompletedButtonClicked" :disabled="isButtonDisabled">Completed</button>
-            <button :class="$style.button" v-if="task.completion" @click="makeActiveButtonClicked">Make active</button>
-            <button :class="$style.button" v-if="!task.completion" @click="editButtonClicked" :disabled="isButtonDisabled">Edit</button>
+            <button data-testid="completedBtn" :class="$style.button" v-if="!task.completion" @click="moveToCompletedButtonClicked" :disabled="isButtonDisabled">Completed</button>
+            <button data-testid="makeActiveBtn" :class="$style.button" v-if="task.completion" @click="makeActiveButtonClicked">Make active</button>
+            <button data-testid="editBtn" :class="$style.button" v-if="!task.completion" @click="editButtonClicked" :disabled="isButtonDisabled">Edit</button>
             <button :class="$style.button" v-if="task.completion" @click="editButtonClicked" :disabled="isButtonDisabled">Edit description</button>
-            <button :class="$style.button" @click="deleteButtonClicked">Delete</button>
+            <button data-testid="deleteBtn" :class="$style.button" @click="deleteButtonClicked">Delete</button>
         </div>
     </div>
 </template>

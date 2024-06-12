@@ -165,6 +165,7 @@ export default {
                 this.newTaskDescription = ''
             }
             this.focusAddTaskDescriptionInput()
+            console.log(task)
 
             // axios.get - read some data, must be idempotent - kinda like a pure function where you avoid side effects in the database.
             //   Doesn't have a body
