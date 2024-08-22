@@ -1,6 +1,6 @@
 <template>
     <div :class="$style.wrapper">
-        Hi, I'm insightful
+        Placeholder
     </div>
     
 </template>

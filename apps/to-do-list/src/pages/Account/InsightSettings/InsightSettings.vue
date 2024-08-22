@@ -1,4 +1,6 @@
-<template></template>
+<template>
+Placeholder
+</template>
 <script>
 export default {
     name: 'InsightSettings'

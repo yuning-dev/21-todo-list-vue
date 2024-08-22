@@ -5,8 +5,7 @@
                 Interactive Todo List
             </h1>
             <p :class="$style.intro">
-                This TodoList is incredibly addictive. Use with caution,
-                and at your own peril. Mwahahahahah!!!!!??!!!!
+                With our snazzy todo list, managing tasks has never been easier. Begin by entering your task name and deadline below.
             </p>
             <div :class="$style.addItemContainer">
                 <label>

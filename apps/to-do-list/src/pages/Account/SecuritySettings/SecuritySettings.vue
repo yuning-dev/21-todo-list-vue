@@ -1,5 +1,5 @@
 <template>
-Security settings hyah
+Placeholder
 </template>
 
 <script>
