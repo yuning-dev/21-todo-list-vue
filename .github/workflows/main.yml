@@ -29,4 +29,4 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: eu-west-2
     - name: Deploy To-Do-List app to S3 bucket for static hosting
-      run: aws s3 sync ./apps/to-do-list/dist/ s3:// snazzy-todo-list --delete
+      run: aws s3 sync ./apps/to-do-list/dist/ s3://snazzy-todo-list --delete
