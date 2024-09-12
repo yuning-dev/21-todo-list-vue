@@ -51,6 +51,10 @@ describe('todo list, active tasks list and completed tasks list', () => {
         completion: true
     }
 
+    // async function modalWindowExists(wrapper) {
+    //     return wrapper.findComponent(ModalWindow)
+    // }
+    
     test('when a task description and due date are provided, clicking the Add list item button adds the list to the task list and displays the task', async () => {
         const wrapper = mount(TodoList, mountOptions)
 
@@ -116,7 +120,6 @@ describe('todo list, active tasks list and completed tasks list', () => {
 
     test('in the modal window triggered by clicking Delete active tasks, clicking Yes deletes the active tasks in the store', async () => {
         const wrapper = mount(TodoList, mountOptions)
-
         const store = useTaskStore()
         store.taskList = [activeTask1, activeTask2, completedTask1]
 
@@ -129,6 +132,24 @@ describe('todo list, active tasks list and completed tasks list', () => {
         expect(store.taskList).toStrictEqual([completedTask1])
     })
     
+    test('in the modal window triggered by clicking Delete active tasks, clicking Cancel closes the modal without changing the task list', async () => {
+        const wrapper = mount(TodoList, mountOptions)
+        const store = useTaskStore()
+        store.taskList = [activeTask1, activeTask2, completedTask1, completedTask2]
+
+        let modalWindow = wrapper.findComponent(ModalWindow)
+
+        const deleteActiveBtn = wrapper.find('[data-testid="deleteActiveBtn"]')
+        await deleteActiveBtn.trigger('click')
+        modalWindow = wrapper.findComponent(ModalWindow)
+        expect(modalWindow.exists()).toBe(true)
+
+        const cancelBtn = wrapper.find('.cancelButton')
+        await cancelBtn.trigger('click')
+        modalWindow = wrapper.findComponent(ModalWindow)
+        expect(modalWindow.exists()).toBe(false)
+        expect(store.taskList).toStrictEqual([activeTask1, activeTask2, completedTask1, completedTask2])
+    })
 })
 
 
