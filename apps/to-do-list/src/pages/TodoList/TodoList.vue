@@ -10,14 +10,14 @@
             <div :class="$style.addItemContainer">
                 <label>
                     Task description:
-                    <input type="text" :class="$style.addItemField" v-model="newTaskDescription" @keyup.enter="addListItem" ref="taskDescriptionInput"/>
+                    <input type="text" :class="$style.addItemField" v-model="newTaskDescription" @keyup.enter="addListItem" ref="taskDescriptionInput" data-testid="taskDescriptionInput"/>
                 </label>
                 <label>
                     Due date:
-                    <input type="date" :class="$style.dueDate" v-model="newTaskDueDate" :min="dateOfToday()" />
+                    <input type="date" :class="$style.dueDate" v-model="newTaskDueDate" :min="dateOfToday()" data-testid="dueDatePicker"/>
                 </label>
                 <div>
-                    <button :class="[$style.addButton, $style.button]" @click="addListItem">
+                    <button :class="[$style.addButton, $style.button]" @click="addListItem" data-testid="addItemBtn">
                         Add list item
                     </button>
                 </div>
@@ -28,7 +28,7 @@
                 <h2>
                     Active tasks
                 </h2>
-                <button :class="$style.button" @click="deleteActiveBtnClicked">Delete active tasks</button>
+                <button :class="$style.button" @click="deleteActiveBtnClicked" data-testid="deleteActiveBtn">Delete active tasks</button>
             </div>
             <template v-for="task in activeTasksList">
                 <TodoItem :task="task" @delete="deleteTaskItem" @updateTask="updateTaskDescriptionAndDueDate" @moveToCompleted="findTaskToMoveToCompleted" />
@@ -39,7 +39,7 @@
                 <template v-slot>
                     Are you sure you want to delete all the active tasks?
                     <div :class="$style.modalBtnContainer">
-                        <button :class="$style.button" @click="deleteActiveTasks">Yes</button>
+                        <button :class="$style.button" @click="deleteActiveTasks" data-testid="yesBtn">Yes</button>
                         <button :class="[$style.button, $style.cancelButton]" @click="closeModal">Cancel</button>
                     </div>
                 </template>
