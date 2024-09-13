@@ -2,6 +2,7 @@ import { describe, test, expect, beforeEach, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 import { createTestingPinia } from '@pinia/testing'
 import { useTaskStore } from '@/stores/TaskStore'
+import { nextTick } from 'vue'
 
 import TodoList from './TodoList.vue'
 import ModalWindow from '@/components/ModalWindow.vue'
@@ -51,10 +52,15 @@ describe('todo list, active tasks list and completed tasks list', () => {
         completion: true
     }
 
-    // async function modalWindowExists(wrapper) {
+    // function modalWindowExists(wrapper) {
     //     return wrapper.findComponent(ModalWindow)
     // }
     
+    async function addSampleTasks() {
+        const store = useTaskStore()
+        store.taskList = [activeTask1, activeTask2, completedTask1, completedTask2]
+    }
+
     test('when a task description and due date are provided, clicking the Add list item button adds the list to the task list and displays the task', async () => {
         const wrapper = mount(TodoList, mountOptions)
 
@@ -108,20 +114,28 @@ describe('todo list, active tasks list and completed tasks list', () => {
     })
 
     test('if there are active tasks, clicking the Delete active tasks button makes a modal window appear', async () => {
+        addSampleTasks()
         const wrapper = mount(TodoList, mountOptions)
 
-        const store = useTaskStore()
-        store.taskList = [activeTask1, activeTask2]
+        let modalWindow = wrapper.findComponent(ModalWindow)
+        expect(modalWindow.exists()).toBe(false)
 
         const deleteActiveTaskBtn = wrapper.find('[data-testid="deleteActiveBtn"]')
         await deleteActiveTaskBtn.trigger('click')
+        modalWindow = wrapper.findComponent(ModalWindow)
+        expect(modalWindow.exists()).toBe(true)
         expect(wrapper.text().includes('Are you sure you want to delete all the active tasks?')).toBe(true)
     })
 
     test('in the modal window triggered by clicking Delete active tasks, clicking Yes deletes the active tasks in the store', async () => {
+        addSampleTasks()
         const wrapper = mount(TodoList, mountOptions)
         const store = useTaskStore()
-        store.taskList = [activeTask1, activeTask2, completedTask1]
+
+        expect(wrapper.text().includes('play football')).toBe(true)
+        expect(wrapper.text().includes('go food shopping')).toBe(true)
+        expect(wrapper.text().includes('buy gift for mum')).toBe(true)
+        expect(wrapper.text().includes('water the plants')).toBe(true)
 
         const deleteActiveBtn = wrapper.find('[data-testid="deleteActiveBtn"]')
         await deleteActiveBtn.trigger('click')
@@ -129,14 +143,18 @@ describe('todo list, active tasks list and completed tasks list', () => {
         const yesBtn = wrapper.find('[data-testid="yesBtn"]')
         await yesBtn.trigger('click')
         expect(wrapper.text().includes('Are you sure you want to delete all the active tasks?')).toBe(false)
-        expect(store.taskList).toStrictEqual([completedTask1])
+        expect(store.taskList).toStrictEqual([completedTask1, completedTask2])
+        await nextTick()
+        expect(wrapper.text().includes('play football')).toBe(false)
+        expect(wrapper.text().includes('go food shopping')).toBe(false)
+        expect(wrapper.text().includes('buy gift for mum')).toBe(true)
+        expect(wrapper.text().includes('water the plants')).toBe(true)
     })
     
     test('in the modal window triggered by clicking Delete active tasks, clicking Cancel closes the modal without changing the task list', async () => {
+        addSampleTasks()
         const wrapper = mount(TodoList, mountOptions)
         const store = useTaskStore()
-        store.taskList = [activeTask1, activeTask2, completedTask1, completedTask2]
-
         let modalWindow = wrapper.findComponent(ModalWindow)
 
         const deleteActiveBtn = wrapper.find('[data-testid="deleteActiveBtn"]')
@@ -149,6 +167,112 @@ describe('todo list, active tasks list and completed tasks list', () => {
         modalWindow = wrapper.findComponent(ModalWindow)
         expect(modalWindow.exists()).toBe(false)
         expect(store.taskList).toStrictEqual([activeTask1, activeTask2, completedTask1, completedTask2])
+    })
+
+    test('clicking the Delete completed tasks button when there are completed tasks makes a modal window appear', async () => {
+        addSampleTasks()
+        const wrapper = mount(TodoList, mountOptions)
+
+        const deleteCompletedBtn = wrapper.find('[data-testid="deleteCompletedBtn"]')
+        await deleteCompletedBtn.trigger('click')
+
+        let modalWindow = wrapper.findComponent(ModalWindow)
+        expect(modalWindow.exists()).toBe(true)
+        expect(wrapper.text().includes('Are you sure you want to delete all the completed tasks?')).toBe(true)
+    })
+
+    test('after clicking the Delete completed tasks button: clicking yes closes the modal and deletes the completed tasks from the store and on the page', async () => {
+        addSampleTasks()
+        const wrapper = mount(TodoList, mountOptions)
+        const store = useTaskStore()
+
+        const deleteCompletedBtn = wrapper.find('[data-testid="deleteCompletedBtn"]')
+        await deleteCompletedBtn.trigger('click')
+
+        const yesBtn = wrapper.find('[data-testid="yesBtn"]')
+        await yesBtn.trigger('click')
+
+        let modalWindow = wrapper.findComponent(ModalWindow)
+        expect(modalWindow.exists()).toBe(false)
+        expect(store.taskList).toStrictEqual([activeTask1, activeTask2])
+        expect(wrapper.text().includes('play football')).toBe(true)
+        expect(wrapper.text().includes('go food shopping')).toBe(true)
+        expect(wrapper.text().includes('buy gift for mum')).toBe(false)
+        expect(wrapper.text().includes('water the plants')).toBe(false)
+    })
+
+    test('after clicking the Deleted completed tasks button: clicking cancel closes the modal without changing tasks on the page or the store', async () => {
+        addSampleTasks()
+        const wrapper = mount(TodoList, mountOptions)
+        const store = useTaskStore()
+
+        const deleteCompletedBtn = wrapper.find('[data-testid="deleteCompletedBtn"]')
+        await deleteCompletedBtn.trigger('click')
+
+        const cancelBtn = wrapper.find('.cancelButton')
+        await cancelBtn.trigger('click')
+        
+
+        let modalWindow = wrapper.findComponent(ModalWindow)
+        expect(modalWindow.exists()).toBe(false)
+        expect(store.taskList).toStrictEqual([activeTask1, activeTask2, completedTask1, completedTask2])
+        expect(wrapper.text().includes('play football')).toBe(true)
+        expect(wrapper.text().includes('go food shopping')).toBe(true)
+        expect(wrapper.text().includes('buy gift for mum')).toBe(true)
+        expect(wrapper.text().includes('water the plants')).toBe(true)
+    })
+
+    test('when there are tasks, clicking Delete all tasks button makes a modal window appear', async () => {
+        addSampleTasks()
+        const wrapper = mount(TodoList, mountOptions)
+
+        let modalWindow = wrapper.findComponent(ModalWindow)
+        expect(modalWindow.exists()).toBe(false)
+        
+        const deleteAllBtn = wrapper.find('.deleteAllButton')
+
+        await deleteAllBtn.trigger('click')
+        modalWindow = wrapper.findComponent(ModalWindow)
+        expect(modalWindow.exists()).toBe(true)
+        expect(wrapper.text().includes('Are you sure you want to delete all the tasks?'))
+    })
+
+    test('after clicking Delete all tasks button, clicking Yes deletes all tasks from the store and the page and makes the modal window disappear', async () => {
+        addSampleTasks()
+        const wrapper = mount(TodoList, mountOptions)
+        const store = useTaskStore()
+
+        const deleteAllBtn = wrapper.find('.deleteAllButton')
+        await deleteAllBtn.trigger('click')
+        
+        const yesBtn = wrapper.find('[data-testid="yesBtn"]')
+        await yesBtn.trigger('click')
+        let modalWindow = wrapper.findComponent(ModalWindow)
+        expect(modalWindow.exists()).toBe(false)
+        expect(store.taskList).toStrictEqual([])
+        expect(wrapper.text().includes('play football')).toBe(false)
+        expect(wrapper.text().includes('go food shopping')).toBe(false)
+        expect(wrapper.text().includes('buy gift for mum')).toBe(false)
+        expect(wrapper.text().includes('water the plants')).toBe(false)
+    })
+
+    test('after clicking Delete all tasks button, clicking Cancel closes the modal window without modifying the store or tasks being displayed', async () => {
+        addSampleTasks()
+        const wrapper = mount(TodoList, mountOptions)
+        const store = useTaskStore()
+
+        const deleteAllBtn = wrapper.find('.deleteAllButton')
+        await deleteAllBtn.trigger('click')
+
+        const cancelBtn = wrapper.find('.cancelButton')
+        await cancelBtn.trigger('click')
+        let modalWindow = wrapper.findComponent(ModalWindow)
+        expect(modalWindow.exists()).toBe(false)
+        expect(store.taskList).toStrictEqual([activeTask1, activeTask2, completedTask1, completedTask2])
+        expect(wrapper.text().includes('play football')).toBe(true)
+        expect(wrapper.text().includes('go food shopping')).toBe(true)
+        expect(wrapper.text().includes('buy gift for mum')).toBe(true)
+        expect(wrapper.text().includes('water the plants')).toBe(true)
     })
 })
 

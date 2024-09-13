@@ -50,7 +50,7 @@
                 <h2>
                     Completed tasks
                 </h2>
-                <button :class="$style.button" @click="deleteCompletedBtnClicked">Delete completed tasks</button>
+                <button :class="$style.button" @click="deleteCompletedBtnClicked" data-testid="deleteCompletedBtn">Delete completed tasks</button>
             </div>
             <template v-for="task in completedTasksList">
                 <TodoItem :task="task" @delete="deleteTaskItem" @updateTask="updateTaskDescriptionAndDueDate" @moveToActive="findTaskToMoveToActive"/>
@@ -61,7 +61,7 @@
                 <template v-slot>
                     Are you sure you want to delete all the completed tasks?
                     <div :class="$style.modalBtnContainer">
-                        <button :class="$style.button" @click="deleteCompletedTasks">Yes</button>
+                        <button :class="$style.button" @click="deleteCompletedTasks" data-testid="yesBtn">Yes</button>
                         <button :class="[$style.button, $style.cancelButton]" @click="closeModal">Cancel</button>
                     </div>
                 </template>
@@ -75,7 +75,7 @@
                 <template v-slot>
                     Are you sure you want to delete all the tasks?
                     <div :class="$style.modalBtnContainer">
-                        <button :class="$style.button" @click="deleteAllTasks">Yes</button>
+                        <button :class="$style.button" @click="deleteAllTasks" data-testid="yesBtn"></button>
                         <button :class="[$style.button, $style.cancelButton]" @click="closeModal">Cancel</button>
                     </div>
                 </template>                
