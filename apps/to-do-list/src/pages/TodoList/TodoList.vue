@@ -134,11 +134,10 @@ export default {
             modalDeleteCompleted: false,
         }
     },
-    // mounted() {
-    //     const timeNow = new Date()
-    //     console.log(timeNow.toString())
-    //     this.newTaskDueDate.min = timeNow.toString()
-    // },
+    async mounted() {
+        const response = await axios.get('http://localhost:3000/api/todo-list')
+        this.taskList = response.data
+    },
     computed: {
         ...mapStores(useTaskStore),
         ...mapState(useTaskStore, [ 
@@ -166,16 +165,7 @@ export default {
             this.focusAddTaskDescriptionInput()
             console.log(task)
 
-            // axios.get - read some data, must be idempotent - kinda like a pure function where you avoid side effects in the database.
-            //   Doesn't have a body
-            // axios.post - create new entries in the database
-            //   Has a body with data (an object) used to create a new entry
-            // axios.put - update an existing entry
-            //   Has a body with data (an object) used to update an entry
-            // axios.delete - delete an entry
-            //   Doesn't have a body
-            // const tasks = await axios.post('http://localhost:3000/api/task/create', task)
-            // this.fetchedTasks = tasks.data
+
         },
         focusAddTaskDescriptionInput() {
             this.$refs.taskDescriptionInput.focus()
