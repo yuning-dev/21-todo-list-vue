@@ -125,7 +125,6 @@ export default {
         return {
             newTaskDescription: '',
             newTaskDueDate: '',
-            newTaskId: 0,
             // taskList: [],
             isCompleted: false,
             fetchedTasks: [],
@@ -164,10 +163,8 @@ export default {
                 await axios.post('http://localhost:3000/api/todo-list/api/item/create', {
                     description: this.newTaskDescription,
                     dueDate: this.newTaskDueDate,
-                    id: this.newTaskId,
                     completion: this.isCompleted
                 })
-                this.newTaskId++
                 this.newTaskDescription = ''
             }
             const getResponse = await axios.get('http://localhost:3000/api/todo-list')

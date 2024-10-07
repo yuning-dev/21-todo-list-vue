@@ -12,10 +12,6 @@ const TodoSchema = new Schema({
         type: Date,
         required: true
     },
-    id: {
-        type: Number,
-        required: true
-    },
     completion: {
         type: Boolean,
         required: true
