@@ -5,7 +5,7 @@ const router = Router()
 
 router.get('/', async (req, res) => {
     try {
-        const todoList = await TodoItem.find()
+        let todoList = await TodoItem.find()
         if (!todoList) {
             throw new Error('No Todo List found')
         }

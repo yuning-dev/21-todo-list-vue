@@ -136,7 +136,15 @@ export default {
     },
     async mounted() {
         const response = await axios.get('http://localhost:3000/api/todo-list')
-        this.taskList = response.data
+        let responseData = response.data
+        this.taskList = responseData.map((task) => {
+            const formattedTask = {
+                ...task,
+                dueDate: task.dueDate_formatted
+            }
+            return formattedTask
+        })
+        console.log(this.taskList)   
     },
     computed: {
         ...mapStores(useTaskStore),
@@ -153,7 +161,7 @@ export default {
         async addListItem(e) {
             e.preventDefault()
             if (this.newTaskDescription !== '' && this.newTaskDueDate !== '') {
-                const response = await axios.post('http://localhost:3000/api/todo-list/api/item/create', {
+                await axios.post('http://localhost:3000/api/todo-list/api/item/create', {
                     description: this.newTaskDescription,
                     dueDate: this.newTaskDueDate,
                     id: this.newTaskId,
