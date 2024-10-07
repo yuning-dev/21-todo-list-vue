@@ -20,7 +20,7 @@ router.get('/', async (req, res) => {
 //     res.sendFile(path + 'index.html')
 // })
 
-router.post('/api/task/create', async (req, res) => {
+router.post('/api/item/create', async (req, res) => {
     const newTodo = new TodoItem(req.body)
     try {
         const todo = await newTodo.save()
