@@ -134,7 +134,7 @@ export default {
         }
     },
     async mounted() {
-        const response = await axios.get('http://localhost:3000/api/todo-list')
+        const response = await axios.get('/api/todo-list/')
         let responseData = response.data
         this.taskList = responseData.map((task) => {
             const formattedTask = {
@@ -160,19 +160,17 @@ export default {
         async addListItem(e) {
             e.preventDefault()
             if (this.newTaskDescription !== '' && this.newTaskDueDate !== '') {
-                await axios.post('http://localhost:3000/api/todo-list/api/item/create', {
+                await axios.post('/api/todo-list/api/item/create', {
                     description: this.newTaskDescription,
                     dueDate: this.newTaskDueDate,
                     completion: this.isCompleted
                 })
                 this.newTaskDescription = ''
             }
-            const getResponse = await axios.get('http://localhost:3000/api/todo-list')
+            const getResponse = await axios.get('/api/todo-list')
             this.taskList = getResponse.data
             this.focusAddTaskDescriptionInput()
-            //issues: clicking Add list item is sending the request, but the page is only displaying the new item after refreshing the page
-            //fix the date format that shows
-            //get config to work with a default root url so don't need to hardcode here
+
         },
         focusAddTaskDescriptionInput() {
             this.$refs.taskDescriptionInput.focus()

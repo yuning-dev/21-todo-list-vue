@@ -15,11 +15,6 @@ router.get('/', async (req, res) => {
     }
 })
 
-
-// router.get('/', (req, res) => {
-//     res.sendFile(path + 'index.html')
-// })
-
 router.post('/api/item/create', async (req, res) => {
     const newTodo = new TodoItem(req.body)
     try {
