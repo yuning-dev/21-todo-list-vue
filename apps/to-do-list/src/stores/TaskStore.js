@@ -21,11 +21,11 @@ export const useTaskStore = defineStore('tasks', {
             return dateInString
         },
         async fetchTodoList() {
-            const response = await axios.get('/api/todo-list/api/todo-item')
+            const response = await axios.get('/api/todo-item')
             this.taskList = response.data
         },
         async sendTodoItem(newTaskDescription, newTaskDueDate, completionStatus) {
-            await axios.post('/api/todo-list/api/todo-item', {
+            await axios.post('/api/todo-item', {
                 description: newTaskDescription,
                 dueDate: newTaskDueDate,
                 completion: completionStatus
