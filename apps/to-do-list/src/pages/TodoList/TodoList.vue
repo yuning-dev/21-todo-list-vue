@@ -161,7 +161,8 @@ export default {
             'dateOfToday',
             'fetchTodoList',
             'sendTodoItem',
-            'deleteTodoItem'
+            'deleteTodoItem',
+            'updateTodoItem'
         ]),
         async addListItem(e) {
             e.preventDefault()
@@ -174,16 +175,15 @@ export default {
         focusAddTaskDescriptionInput() {
             this.$refs.taskDescriptionInput.focus()
         },
-        updateTaskDescriptionAndDueDate(updatedDescription, updatedDueDate, id) {
+        async updateTaskDescriptionAndDueDate(updatedDescription, updatedDueDate, id) {
             const taskToUpdate = this.taskList.find((task) => task.id === id)
-            taskToUpdate.description = updatedDescription
-            taskToUpdate.dueDate = updatedDueDate
+            const completion = taskToUpdate.completion
+            await this.updateTodoItem(updatedDescription, updatedDueDate, id, completion)
+            // taskToUpdate.description = updatedDescription
+            // taskToUpdate.dueDate = updatedDueDate
         },
         async deleteTaskItem(id) {
-            console.log(id)
             await this.deleteTodoItem(id)
-            // const taskListWithTaskRemoved = this.taskList.filter((task) => task.id !== id)
-            // this.taskList = taskListWithTaskRemoved
         },
         findTaskToMoveToCompleted(id) {
             const taskToMoveToCompleted = this.taskList.find((task) => task.id === id)

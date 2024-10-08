@@ -41,4 +41,23 @@ router.delete('/:id', async (req, res) => {
     }
 })
 
+router.put('/:id', async (req, res) => {
+    const { id } = req.params
+    const updatedTask = new TodoItem({
+        description: req.body.description,
+        dueDate: req.body.dueDate,
+        completion: req.body.completion,
+        _id: req.params.id
+    })
+    try {
+        const updated = await TodoItem.findByIdAndUpdate(id, updatedTask, {})
+        if (!updated) {
+            throw new Error('Something went wrong')
+        }
+        res.status(200).json(updated)
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+})
+
 module.exports = router
