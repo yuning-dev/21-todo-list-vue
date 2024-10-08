@@ -3,7 +3,7 @@ const TodoItem = require('../../models/TodoItem')
 
 const router = Router()
 
-router.get('/', async (req, res) => {
+router.get('/api/todo-item', async (req, res) => {
     try {
         let todoList = await TodoItem.find()
         if (!todoList) {
@@ -15,7 +15,7 @@ router.get('/', async (req, res) => {
     }
 })
 
-router.post('/api/item/create', async (req, res) => {
+router.post('/api/todo-item', async (req, res) => {
     const newTodo = new TodoItem(req.body)
     try {
         const todo = await newTodo.save()
