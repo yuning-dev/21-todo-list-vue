@@ -28,4 +28,17 @@ router.post('/', async (req, res) => {
     }
 })
 
+router.delete('/:id', async (req, res) => {
+    const { id } = req.params
+    try {
+        const removed = await TodoItem.findByIdAndDelete(id)
+        if (!removed) {
+            throw new Error('Something went wrong')
+        }
+        res.status(200).json(removed)
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+})
+
 module.exports = router
