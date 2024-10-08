@@ -160,7 +160,8 @@ export default {
         ...mapActions(useTaskStore, [
             'dateOfToday',
             'fetchTodoList',
-            'sendTodoItem'
+            'sendTodoItem',
+            'deleteTodoItem'
         ]),
         async addListItem(e) {
             e.preventDefault()
@@ -178,9 +179,11 @@ export default {
             taskToUpdate.description = updatedDescription
             taskToUpdate.dueDate = updatedDueDate
         },
-        deleteTaskItem(id) {
-            const taskListWithTaskRemoved = this.taskList.filter((task) => task.id !== id)
-            this.taskList = taskListWithTaskRemoved
+        async deleteTaskItem(id) {
+            console.log(id)
+            await this.deleteTodoItem(id)
+            // const taskListWithTaskRemoved = this.taskList.filter((task) => task.id !== id)
+            // this.taskList = taskListWithTaskRemoved
         },
         findTaskToMoveToCompleted(id) {
             const taskToMoveToCompleted = this.taskList.find((task) => task.id === id)
