@@ -134,16 +134,17 @@ export default {
         }
     },
     async mounted() {
-        const response = await axios.get('/api/todo-list/')
-        let responseData = response.data
-        this.taskList = responseData.map((task) => {
-            const formattedTask = {
-                ...task,
-                dueDate: task.dueDate_formatted
-            }
-            return formattedTask
-        })
-        console.log(this.taskList)   
+        this.fetchTodoList()
+        // const response = await axios.get('/api/todo-list/')
+        // let responseData = response.data
+        // this.taskList = responseData.map((task) => {
+        //     const formattedTask = {
+        //         ...task,
+        //         dueDate: task.dueDate_formatted
+        //     }
+        //     return formattedTask
+        // })
+        // console.log(this.taskList)   
     },
     computed: {
         ...mapStores(useTaskStore),
@@ -156,21 +157,18 @@ export default {
         ])
     },
     methods: {
-        ...mapActions(useTaskStore, ['dateOfToday']),
+        ...mapActions(useTaskStore, [
+            'dateOfToday',
+            'fetchTodoList',
+            'sendTodoItem'
+        ]),
         async addListItem(e) {
             e.preventDefault()
             if (this.newTaskDescription !== '' && this.newTaskDueDate !== '') {
-                await axios.post('/api/todo-list/api/item/create', {
-                    description: this.newTaskDescription,
-                    dueDate: this.newTaskDueDate,
-                    completion: this.isCompleted
-                })
+                await this.sendTodoItem(this.newTaskDescription, this.newTaskDueDate, this.isCompleted)
                 this.newTaskDescription = ''
             }
-            const getResponse = await axios.get('/api/todo-list')
-            this.taskList = getResponse.data
             this.focusAddTaskDescriptionInput()
-
         },
         focusAddTaskDescriptionInput() {
             this.$refs.taskDescriptionInput.focus()
