@@ -81,25 +81,6 @@
                 </template>                
             </ModalWindow>
         </template>
-        <!-- <section :class="[$style.completedTasksSection, $style.card]">
-            <div :class="$style.listHeader">
-                <h2>
-                    Tasks from the server
-                </h2>
-                <div></div>
-            </div>
-            <template v-for="task in fetchedTasks">
-                <TodoItem :task="task" />
-            </template>
-        </section> -->
-        <!-- <div>
-           <p>Testing store:</p> 
-           taskList: {{ taskList }} 
-        </div>
-        <div>
-            activeTasksList: {{ activeTasksList }} <br/>
-            completedTasksList: {{ completedTasksList }} 
-        </div> -->
     </div>
 </template>
 
@@ -133,7 +114,7 @@ export default {
         }
     },
     async mounted() {
-        this.fetchTodoList()
+        await this.fetchTodoList()
         // const response = await axios.get('/api/todo-list/')
         // let responseData = response.data
         // this.taskList = responseData.map((task) => {
@@ -153,7 +134,7 @@ export default {
         ]),
         ...mapWritableState(useTaskStore, [
             'taskList'
-        ])
+        ]),
     },
     methods: {
         ...mapActions(useTaskStore, [
