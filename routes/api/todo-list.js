@@ -11,7 +11,7 @@ router.get('/', async (req, res) => {
         }
         res.status(200).json(todoList)
     } catch (error) {
-        res.status(500).json({ message: error.message })
+        res.status(500)
     }
 })
 
@@ -24,7 +24,7 @@ router.post('/', async (req, res) => {
         }
         res.status(200).json(todo)
     } catch (error) {
-        res.status(500).json({ message: error.message })
+        res.status(500)
     }
 })
 
@@ -37,7 +37,7 @@ router.delete('/:id', async (req, res) => {
         }
         res.status(200).json(removed)
     } catch (error) {
-        res.status(500).json({ message: error.message })
+        res.status(500)
     }
 })
 
@@ -56,7 +56,19 @@ router.put('/:id', async (req, res) => {
         }
         res.status(200).json(updated)
     } catch (error) {
-        res.status(500).json({ message: error.message })
+        res.status(500)
+    }
+})
+
+router.post('/delete-active', async (req, res) => {
+    try {
+        const deleted = await TodoItem.deleteMany({ completion: false })
+        if (!deleted) {
+            throw new Error('Something went wrong')
+        }
+        res.status(200).json(deleted)
+    } catch (error) {
+        res.status(500)
     }
 })
 

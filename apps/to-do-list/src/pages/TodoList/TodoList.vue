@@ -162,7 +162,8 @@ export default {
             'fetchTodoList',
             'sendTodoItem',
             'deleteTodoItem',
-            'updateTodoItem'
+            'updateTodoItem',
+            'deleteMultipleItems'
         ]),
         async addListItem(e) {
             e.preventDefault()
@@ -198,8 +199,9 @@ export default {
                 this.modalDeleteActive = true
             }
         },
-        deleteActiveTasks() {
-            this.taskList = this.completedTasksList
+        async deleteActiveTasks() {
+            await this.deleteMultipleItems('active')
+            // this.taskList = this.completedTasksList
             this.closeModal()
         },
         deleteCompletedBtnClicked() {

@@ -43,6 +43,11 @@ export const useTaskStore = defineStore('tasks', {
                 completion: completionStatus
             })
             await this.fetchTodoList()
+        },
+        async deleteMultipleItems(itemsType) {
+            await axios.post('/api/todo-item/delete-' + itemsType)
+            await this.fetchTodoList()
         }
+
     },
 })
