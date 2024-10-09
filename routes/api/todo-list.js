@@ -60,9 +60,36 @@ router.put('/:id', async (req, res) => {
     }
 })
 
+router.post('/:id', async (req, res) => {
+    const { id } = req.params
+    try {
+        const taskToUpdate = await TodoItem.findById(id)
+        if (!taskToUpdate) {
+            throw new Error('Something went wrong')
+        }
+        taskToUpdate.completion = req.body.completion
+        await taskToUpdate.save()
+        res.status(200).json(taskToUpdate)
+    } catch (error) {
+        res.status(500)
+    }
+})
+
 router.post('/delete-active', async (req, res) => {
     try {
         const deleted = await TodoItem.deleteMany({ completion: false })
+        if (!deleted) {
+            throw new Error('Something went wrong')
+        }
+        res.status(200).json(deleted)
+    } catch (error) {
+        res.status(500)
+    }
+})
+
+router.post('/delete-completed', async (req, res) => {
+    try {
+        const deleted = await TodoItem.deleteMany({ completion: true })
         if (!deleted) {
             throw new Error('Something went wrong')
         }

@@ -162,7 +162,8 @@ export default {
             'fetchTodoList',
             'sendTodoItem',
             'deleteTodoItem',
-            'updateTodoItem',
+            'updateDescriptionAndDueDate',
+            'updateCompletionStatus',
             'deleteMultipleItems'
         ]),
         async addListItem(e) {
@@ -179,20 +180,16 @@ export default {
         async updateTaskDescriptionAndDueDate(updatedDescription, updatedDueDate, id) {
             const taskToUpdate = this.taskList.find((task) => task.id === id)
             const completion = taskToUpdate.completion
-            await this.updateTodoItem(updatedDescription, updatedDueDate, id, completion)
-            // taskToUpdate.description = updatedDescription
-            // taskToUpdate.dueDate = updatedDueDate
+            await this.updateDescriptionAndDueDate(updatedDescription, updatedDueDate, id, completion)
         },
         async deleteTaskItem(id) {
             await this.deleteTodoItem(id)
         },
-        findTaskToMoveToCompleted(id) {
-            const taskToMoveToCompleted = this.taskList.find((task) => task.id === id)
-            taskToMoveToCompleted.completion = true
+        async findTaskToMoveToCompleted(id) {
+            await this.updateCompletionStatus('true', id)
         },
-        findTaskToMoveToActive(id) {
-            const taskToMoveToActive = this.taskList.find((task) => task.id === id)
-            taskToMoveToActive.completion = false
+        async findTaskToMoveToActive(id) {
+            await this.updateCompletionStatus('false', id)
         },
         deleteActiveBtnClicked() {
             if (this.activeTasksList.length > 0) {
@@ -201,7 +198,6 @@ export default {
         },
         async deleteActiveTasks() {
             await this.deleteMultipleItems('active')
-            // this.taskList = this.completedTasksList
             this.closeModal()
         },
         deleteCompletedBtnClicked() {
@@ -209,8 +205,8 @@ export default {
                 this.modalDeleteCompleted = true
             }
         },
-        deleteCompletedTasks() {
-            this.taskList = this.activeTasksList
+        async deleteCompletedTasks() {
+            await this.deleteMultipleItems('completed')
             this.closeModal()
         },
         deleteAllBtnClicked() {

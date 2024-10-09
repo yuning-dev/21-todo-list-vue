@@ -36,11 +36,17 @@ export const useTaskStore = defineStore('tasks', {
             await axios.delete('/api/todo-item/' + id)
             await this.fetchTodoList()
         },
-        async updateTodoItem(updatedTaskDescription, updatedTaskDueDate, id, completionStatus) {
+        async updateDescriptionAndDueDate(updatedTaskDescription, updatedTaskDueDate, id, completionStatus) {
             await axios.put('/api/todo-item/' + id, {
                 description: updatedTaskDescription,
                 dueDate: updatedTaskDueDate,
                 completion: completionStatus
+            })
+            await this.fetchTodoList()
+        },
+        async updateCompletionStatus(updatedCompletionStatus, id) {
+            await axios.post('/api/todo-item/' + id, {
+                completion: updatedCompletionStatus
             })
             await this.fetchTodoList()
         },
