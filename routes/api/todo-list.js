@@ -3,7 +3,7 @@ const TodoItem = require('../../models/TodoItem')
 
 const router = Router()
 
-router.get('/', async (req, res) => {
+router.get('/todo-items', async (req, res) => {
     try {
         let todoList = await TodoItem.find()
         if (!todoList) {
@@ -15,7 +15,7 @@ router.get('/', async (req, res) => {
     }
 })
 
-router.post('/', async (req, res) => {
+router.post('/todo-item', async (req, res) => {
     const newTodo = new TodoItem(req.body)
     try {
         const todo = await newTodo.save()
@@ -28,7 +28,7 @@ router.post('/', async (req, res) => {
     }
 })
 
-router.delete('/:id', async (req, res) => {
+router.delete('/todo-item/:id', async (req, res) => {
     const { id } = req.params
     try {
         const removed = await TodoItem.findByIdAndDelete(id)
@@ -41,7 +41,7 @@ router.delete('/:id', async (req, res) => {
     }
 })
 
-router.put('/:id', async (req, res) => {
+router.put('/todo-item/:id', async (req, res) => {
     const { id } = req.params
     const updatedTask = new TodoItem({
         description: req.body.description,
@@ -60,7 +60,7 @@ router.put('/:id', async (req, res) => {
     }
 })
 
-router.post('/:id', async (req, res) => {
+router.post('/todo-item/:id', async (req, res) => {
     const { id } = req.params
     try {
         const taskToUpdate = await TodoItem.findById(id)
@@ -75,7 +75,7 @@ router.post('/:id', async (req, res) => {
     }
 })
 
-router.post('/delete-active', async (req, res) => {
+router.post('/todo-items/delete-active', async (req, res) => {
     try {
         const deleted = await TodoItem.deleteMany({ completion: false })
         if (!deleted) {
@@ -87,9 +87,21 @@ router.post('/delete-active', async (req, res) => {
     }
 })
 
-router.post('/delete-completed', async (req, res) => {
+router.post('/todo-items/delete-completed', async (req, res) => {
     try {
         const deleted = await TodoItem.deleteMany({ completion: true })
+        if (!deleted) {
+            throw new Error('Something went wrong')
+        }
+        res.status(200).json(deleted)
+    } catch (error) {
+        res.status(500)
+    }
+})
+
+router.post('/todo-items/delete-all', async (req, res) => {
+    try {
+        const deleted = await TodoItem.deleteMany({})
         if (!deleted) {
             throw new Error('Something went wrong')
         }

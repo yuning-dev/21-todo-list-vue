@@ -21,7 +21,7 @@ export const useTaskStore = defineStore('tasks', {
             return dateInString
         },
         async fetchTodoList() {
-            const response = await axios.get('/api/todo-item')
+            const response = await axios.get('/api/todo-items')
             this.taskList = response.data
         },
         async sendTodoItem(newTaskDescription, newTaskDueDate, completionStatus) {
@@ -51,7 +51,8 @@ export const useTaskStore = defineStore('tasks', {
             await this.fetchTodoList()
         },
         async deleteMultipleItems(itemsType) {
-            await axios.post('/api/todo-item/delete-' + itemsType)
+            console.log('I am called')
+            await axios.post('/api/todo-items/delete-' + itemsType)
             await this.fetchTodoList()
         }
 

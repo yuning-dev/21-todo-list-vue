@@ -75,7 +75,7 @@
                 <template v-slot>
                     Are you sure you want to delete all the tasks?
                     <div :class="$style.modalBtnContainer">
-                        <button :class="$style.button" @click="deleteAllTasks" data-testid="yesBtn"></button>
+                        <button :class="$style.button" @click="deleteAllTasks" data-testid="yesBtn">Yes</button>
                         <button :class="[$style.button, $style.cancelButton]" @click="closeModal">Cancel</button>
                     </div>
                 </template>                
@@ -125,7 +125,6 @@ export default {
         return {
             newTaskDescription: '',
             newTaskDueDate: '',
-            // taskList: [],
             isCompleted: false,
             fetchedTasks: [],
             modalDeleteAll: false,
@@ -214,8 +213,8 @@ export default {
                 this.modalDeleteAll = true
             }
         },
-        deleteAllTasks() {
-            this.taskList = []
+        async deleteAllTasks() {
+            await this.deleteMultipleItems('all')
             this.closeModal()
         },
         closeModal() {

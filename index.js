@@ -19,7 +19,7 @@ mongoose
     .then(() => console.log('MongoDB database connected...'))
     .catch((err) => console.log(err))
 
-app.use('/api/todo-item', routes)
+app.use('/api', routes)
 
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'views/to-do-list/index.html'))
