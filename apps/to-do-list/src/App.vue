@@ -1,5 +1,5 @@
 <script setup>
-import TopBar from '@/components/TopBar/TopBar.vue'
+import TopBar from '@/components/topbar/TopBar.vue'
 </script>
 
 <template>

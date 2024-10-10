@@ -5,7 +5,7 @@ import { useTaskStore } from '@/stores/TaskStore'
 import { nextTick } from 'vue'
 
 import TodoList from './TodoList.vue'
-import ModalWindow from '@/components/ModalWindow.vue'
+import ModalWindow from '@/components/modal-window/ModalWindow.vue'
 
 describe('todo list, active tasks list and completed tasks list', () => {
     let mountOptions

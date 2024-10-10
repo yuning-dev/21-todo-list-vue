@@ -92,8 +92,8 @@ import { mapState, mapWritableState } from 'pinia'
 import { mapActions } from 'pinia'
 import { useTaskStore } from '@/stores/TaskStore'
 
-import TodoItem from '../../components/TodoItem.vue'
-import ModalWindow from '../../components/ModalWindow.vue'
+import TodoItem from '../../components/todo-item/TodoItem.vue'
+import ModalWindow from '../../components/modal-window/ModalWindow.vue'
 import axios from 'axios'
 
 export default {

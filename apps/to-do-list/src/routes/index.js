@@ -1,6 +1,6 @@
-import TodoList from '@/pages/todolist/TodoList.vue'
-import SignUp from '@/pages/signup/SignUp.vue'
-import LogIn from '@/pages/login/LogIn.vue'
+import TodoList from '@/pages/todo-list/TodoList.vue'
+import SignUp from '@/pages/sign-up/SignUp.vue'
+import LogIn from '@/pages/log-in/LogIn.vue'
 
 export default [
     {
