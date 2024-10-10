@@ -1,12 +1,13 @@
-module.exports = mongoose => {
-    const Role = mongoose.model(
-        'Role',
-        mongoose.Schema(
-            {
-                name: String
-            },
-            { timestamps: true }
-        )
+const mongoose = require('mongoose')
+
+const Role = mongoose.model(
+    'Role',
+    mongoose.Schema(
+        {
+            name: String
+        },
+        { timestamps: true }
     )
-    return Role
-}
+)
+
+module.exports = Role
