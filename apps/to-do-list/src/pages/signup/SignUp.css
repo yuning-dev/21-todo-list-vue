@@ -1,32 +1,57 @@
+input {
+    width: 250px;
+    height: 35px;
+}
+
 .wrapper {
-    padding: 15px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .contentWrapper {
+    background: #faf7ff;
+    margin-top: 50px;
+    padding-top: 50px;
+    padding-bottom: 80px;
+    border: 1px solid grey;
+    border-radius: 2.5px;
+    width: 350px;
     display: flex;
+    align-items: center;
+    flex-direction: column;
 }
 
 .title {
-    margin-left: 300px;
+    font-size: 1.2em;
+    font-weight: 700;
 }
 
-.sideBar {
+.inputsWrapper {
+    margin-top: 30px;
     display: flex;
+    align-items: center;
     flex-direction: column;
-    width: 200px;
-    background: #e7f7ff;
+    gap: 15px;
 }
 
-.item {
-    text-decoration: none;
-    color: black;
-    padding: 5px 10px;
+.signUpBtn {
+    width: 250px;
+    height: 35px;
+    background: #318CE7;
+    color: white;
+    font-size: 1.025em;
+    border: none;
+    border-radius: 2.5px;
 }
 
-.item:hover {
-    background: #c5eaff;
+.signUpBtn:hover {
+    background: #0066b2;
+    cursor: pointer;
 }
 
-.routedPageWrapper {
-    border: 1px solid hotpink;
+.disclaimer {
+    margin-top: 5px;
+    font-size: 0.9em;
+    color: grey;
 }
