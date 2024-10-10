@@ -1,9 +1,6 @@
-import TodoList from '@/pages/TodoList/TodoList.vue'
-import Insights from '@/pages/Insights/Insights.vue'
-import Account from '@/pages/Account/Account.vue'
-import EmailSettings from '@/pages/Account/EmailSettings/EmailSettings.vue'
-import SecuritySettings from '@/pages/Account/SecuritySettings/SecuritySettings.vue' 
-import InsightSettings from '@/pages/Account/InsightSettings/InsightSettings.vue' 
+import TodoList from '@/pages/todolist/TodoList.vue'
+import SignUp from '@/pages/signup/SignUp.vue'
+import LogIn from '@/pages/login/LogIn.vue'
 
 export default [
     {
@@ -12,30 +9,13 @@ export default [
         component: TodoList
     },
     { 
-        path: '/account',
-        name: 'account',
-        component: Account,
-        children: [
-            {
-                path: 'email',
-                name: 'email-settings',
-                component: EmailSettings
-            },
-            {
-                path: 'security',
-                name: 'security-settings',
-                component: SecuritySettings
-            },
-            {
-                path: 'insights',
-                name: 'insight-settings',
-                component: InsightSettings
-            }
-        ]
+        path: '/sign-up',
+        name: 'sign-up',
+        component: SignUp
     },
     {
-        path: '/insights',
-        name: 'insights',
-        component: Insights
+        path: '/login',
+        name: 'log-in',
+        component: LogIn
     }
 ]
