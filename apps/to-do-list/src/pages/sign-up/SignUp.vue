@@ -1,7 +1,7 @@
 <template>
     <div :class="$style.wrapper">
         <div :class="$style.contentWrapper">
-            <div :class="$style.title">Sign up to Simple Schedule</div>
+            <div :class="$style.title">Sign up to Simple Appoinment</div>
             <div :class="$style.inputsWrapper">
                 <input type="text" placeholder="Email address" />
                 <input type="text" placeholder="Password"/>

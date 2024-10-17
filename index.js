@@ -24,6 +24,7 @@ mongoose
 
 app.use('/api', routes)
 
+// code below will make the browser send the index.html file as a response - probably not desired??
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'views/to-do-list/index.html'))
 })

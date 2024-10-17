@@ -20,7 +20,9 @@
     "luxon": "^3.5.0",
     "mongodb": "^6.9.0",
     "mongoose": "^8.7.0",
-    "vite-ssr": "^0.17.2"
+    "vee-validate": "^4.13.2",
+    "vite-ssr": "^0.17.2",
+    "yup": "^1.4.0"
   },
   "devDependencies": {
     "concurrently": "^9.0.1",
