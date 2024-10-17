@@ -4,8 +4,8 @@
             <div :class="$style.title">Log in to Simple Appoinment</div>
             <Form :validation-schema="schema" :class="$style.inputsWrapper">
                 <div :class="$style.formGroup">
-                    <Field name="Email" type="text" placeholder="Email address" :class="$style.inputField" />
-                    <ErrorMessage name="Email" :class="$style.errorFeedback" />
+                    <Field name="email" type="text" placeholder="Email address" :class="$style.inputField" />
+                    <ErrorMessage name="email" :class="$style.errorFeedback" />
                 </div>
                 <div :class="$style.formGroup">
                     <Field name="password" type="text" placeholder="Password" :class="$style.inputField" />
@@ -34,7 +34,7 @@ export default {
     },
     data() {
         const schema = yup.object().shape({
-            Email: yup.string().required('Email is required!'),
+            email: yup.string().email().required('Email is required!'),
             password: yup.string().required('Password is required!')
         })
         return {

@@ -35,6 +35,11 @@ input {
     gap: 15px;
 }
 
+.errorFeedback {
+    display: block;
+    color: #D2122E
+}
+
 .signUpBtn {
     width: 250px;
     height: 35px;
