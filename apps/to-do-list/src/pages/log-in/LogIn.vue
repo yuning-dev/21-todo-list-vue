@@ -1,7 +1,7 @@
 <template>
     <div :class="$style.wrapper">
         <div :class="$style.contentWrapper">
-            <div :class="$style.title">Log in to Simple Appoinment</div>
+            <div :class="$style.title">Log in to Simple Appoinments</div>
             <Form :validation-schema="schema" :class="$style.inputsWrapper">
                 <div :class="$style.formGroup">
                     <Field name="email" type="text" placeholder="Email address" :class="$style.inputField" />

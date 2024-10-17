@@ -16,7 +16,9 @@ router.get('/todo-items', async (req, res) => {
 })
 
 router.post('/todo-item', async (req, res) => {
+    console.log(req.session.id)
     const newTodo = new TodoItem(req.body)
+    newTodo.sessionId = req.session.id
     try {
         const todo = await newTodo.save()
         if (!todo) {

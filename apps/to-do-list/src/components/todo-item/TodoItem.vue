@@ -77,16 +77,16 @@ export default {
             this.isInEditMode = false
             this.isButtonDisabled = false
             // this.setDueDateColor(this.editedDueDate)
-            this.$emit('updateTask', this.editedTaskDescription, this.editedDueDate, this.task.id)
+            this.$emit('updateTask', this.editedTaskDescription, this.editedDueDate, this.task._id)
         },
         deleteButtonClicked() {
-            this.$emit('delete', this.task.id)
+            this.$emit('delete', this.task._id)
         },
         moveToCompletedButtonClicked() {
-            this.$emit('moveToCompleted', this.task.id)
+            this.$emit('moveToCompleted', this.task._id)
         },
         makeActiveButtonClicked() {
-            this.$emit('moveToActive', this.task.id)
+            this.$emit('moveToActive', this.task._id)
         },
         dateOfToday() {
             const today = new Date()

@@ -20,6 +20,15 @@ export const useTaskStore = defineStore('tasks', {
             const dateInString = todayInString.substring(0,10)
             return dateInString
         },
+        // async checkSession() {
+        //     const response = await axios.get('/api/session')
+        //     if (!response.data.description) {
+        //         return false
+        //     }
+        // },
+        // async createSession() {
+        //     const response = await axios.post('/api/session')
+        // },
         async fetchTodoList() {
             const response = await axios.get('/api/todo-items')
             const formattedTaskList = response.data.map((task) => {
@@ -35,7 +44,7 @@ export const useTaskStore = defineStore('tasks', {
             await axios.post('/api/todo-item', {
                 description: newTaskDescription,
                 dueDate: newTaskDueDate,
-                completion: completionStatus
+                completion: completionStatus,
             })
             await this.fetchTodoList()
         },

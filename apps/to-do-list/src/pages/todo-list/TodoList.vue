@@ -114,17 +114,8 @@ export default {
         }
     },
     async mounted() {
+        // await this.createSession()
         await this.fetchTodoList()
-        // const response = await axios.get('/api/todo-list/')
-        // let responseData = response.data
-        // this.taskList = responseData.map((task) => {
-        //     const formattedTask = {
-        //         ...task,
-        //         dueDate: task.dueDate_formatted
-        //     }
-        //     return formattedTask
-        // })
-        // console.log(this.taskList)   
     },
     computed: {
         ...mapStores(useTaskStore),
@@ -144,7 +135,8 @@ export default {
             'deleteTodoItem',
             'updateDescriptionAndDueDate',
             'updateCompletionStatus',
-            'deleteMultipleItems'
+            'deleteMultipleItems',
+            'createSession'
         ]),
         async addListItem(e) {
             e.preventDefault()
@@ -158,7 +150,7 @@ export default {
             this.$refs.taskDescriptionInput.focus()
         },
         async updateTaskDescriptionAndDueDate(updatedDescription, updatedDueDate, id) {
-            const taskToUpdate = this.taskList.find((task) => task.id === id)
+            const taskToUpdate = this.taskList.find((task) => task._id === id)
             const completion = taskToUpdate.completion
             await this.updateDescriptionAndDueDate(updatedDescription, updatedDueDate, id, completion)
         },
