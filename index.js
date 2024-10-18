@@ -6,7 +6,7 @@ const cors = require('cors')
 const cookieParser = require('cookie-parser')
 const session = require('express-session')
 const todoRoutes = require('./routes/api/todo-list')
-const sessionRoutes = require('./routes/api/session')
+// const sessionRoutes = require('./routes/api/session')
 const port = process.env.PORT || 3000
 const app = express()
 const path = require('path')
@@ -28,7 +28,7 @@ app.use(session({
         secure: false
     },
     saveUninitialized: true,
-    resave: true,
+    resave: false,
 }))
 
 app.use(bodyParser.json())
@@ -42,7 +42,7 @@ mongoose
     .catch((err) => console.log(err))
 
 app.use('/api', todoRoutes)
-app.use('/api', sessionRoutes)
+// app.use('/api', sessionRoutes)
 
 // code below will make the browser send the index.html file as a response - probably not desired??
 app.get('*', (req, res) => {

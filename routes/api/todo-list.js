@@ -6,7 +6,7 @@ const router = Router()
 
 router.get('/todo-items', async (req, res) => {
     try {
-        let todoList = await TodoItem.find({ })
+        let todoList = await TodoItem.find({ sessionId: req.session.id })
         if (!todoList) {
             throw new Error('No Todo List found')
         }
@@ -22,9 +22,9 @@ router.post('/todo-item', async (req, res) => {
         ...req.body,
         sessionId: req.session.id
     })
-    // const newSession = new Session(req.session.id)
-
     console.log(newTodo)
+
+    // const newSession = new Session({ sessionId: req.session.id })
     // console.log(newSession)
 
     try {
