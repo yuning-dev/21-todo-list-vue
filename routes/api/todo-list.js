@@ -1,11 +1,12 @@
 const { Router } = require('express')
-const TodoItem = require('../../models/TodoItem')
+const TodoItem = require('../../models/todo-item.model')
+// const Session = require('../../models/session.model')
 
 const router = Router()
 
 router.get('/todo-items', async (req, res) => {
     try {
-        let todoList = await TodoItem.find()
+        let todoList = await TodoItem.find({ })
         if (!todoList) {
             throw new Error('No Todo List found')
         }
@@ -17,9 +18,17 @@ router.get('/todo-items', async (req, res) => {
 
 router.post('/todo-item', async (req, res) => {
     console.log(req.session.id)
-    const newTodo = new TodoItem(req.body)
-    newTodo.sessionId = req.session.id
+    const newTodo = new TodoItem({
+        ...req.body,
+        sessionId: req.session.id
+    })
+    // const newSession = new Session(req.session.id)
+
+    console.log(newTodo)
+    // console.log(newSession)
+
     try {
+        // const session = await newSession.save()
         const todo = await newTodo.save()
         if (!todo) {
             throw new Error('Something went wrong saving the todo item')

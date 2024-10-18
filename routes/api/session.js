@@ -28,7 +28,7 @@ router.get('/session', async (req, res) => {
 })
 
 router.post('/session', async (req, res) => {
-    console.log(req.session.id)
+    // console.log(req.session.id)
     const newSession = new Session(req.session.id)
     try {
         const session = await newSession.save()

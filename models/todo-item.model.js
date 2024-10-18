@@ -13,7 +13,10 @@ const TodoSchema = new Schema({
         type: Boolean,
         required: true
     },
-    // session: { type: Schema.Types.ObjectId, ref: 'Session'}
+    sessionId: {
+        type: String,
+        required: true
+    }
 })
 
-module.exports = model('todoItem', TodoSchema)
+module.exports = model('TodoItem', TodoSchema)
