@@ -28,7 +28,7 @@ jobs:
             - name: Run unit tests and build app
               run: |
                 cd apps/to-do-list
-                npm run tests
+                npm run test
             - name: Build app
               run: npm run build:prod
 
