@@ -7,14 +7,14 @@ const cookieParser = require('cookie-parser')
 const session = require('express-session')
 const todoRoutes = require('./routes/api/todo-list')
 // const sessionRoutes = require('./routes/api/session')
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 80
 const app = express()
 const path = require('path')
 
 app.use(cors({
     origin: [
-        'http://localhost:3000',
-        'https://localhost:3000'
+        'http://localhost:80',
+        'https://localhost:80'
     ],
     credentials: true,
     exposedHeaders: ['set-cookie']
