@@ -26,11 +26,11 @@ jobs:
                 aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
                 aws-region: eu-west-2
             - name: Run unit tests and build app
-              run:
-                # I'm assuming that we're in the to-do-list folder because of the Install dependencies job
-                npm run test
-                cd ../..
-                npm run build:prod
+              run: |
+                cd apps/to-do-list
+                npm run tests
+            - name: Build app
+              run: npm run build:prod
 
     continuous-deployment:
         runs-on: ubuntu-latest
@@ -48,6 +48,6 @@ jobs:
               run: |
                 aws deploy create-deployment \
                   --application-name to-do-list \
-                  --deployment-group-name to-do-list-deploment \
+                  --deployment-group-name to-do-list-deployment \
                   --deployment-config-name CodeDeployDefault.OneAtATime \
                   --github-location repository=${{ github.repository }},commitId=${{ github.sha }} 
