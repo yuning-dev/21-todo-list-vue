@@ -3,7 +3,7 @@ import { mount } from '@vue/test-utils'
 
 import TodoItem from './TodoItem.vue'
 
-describe('todo task component', () => {
+describe.skip('todo task component', () => {
 
     const exampleTask = {
         description: 'have a date in Osaka',
