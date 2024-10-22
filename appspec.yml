@@ -5,10 +5,10 @@ files:
     destination: /home/opt/back-end
 hooks:
   AfterInstall:
-    - location: /scripts/install-app-dependencies
+    - location: scripts/install-app-dependencies.sh
       timeout: 300
       runas: root
   ApplicationStart:
-    - location: /scripts/start-server
+    - location: scripts/start-server.sh
       timeout: 300
       runas: root
