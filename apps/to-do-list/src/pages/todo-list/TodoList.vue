@@ -2,7 +2,7 @@
     <div :class="$style.wrapper">
         <section :class="[$style.header, $style.card]">
             <h1 :class="$style.title">
-                Snazzy Todo List
+                Snazzy Todo List - now with CI/CD :D
             </h1>
             <p :class="$style.intro">
                 With our snazzy todo list, managing tasks has never been easier. Begin by entering your task name and deadline below.
