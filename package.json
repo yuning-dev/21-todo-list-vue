@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "test",
-    "build:prod": "cd apps/to-do-list/ && npm run build && cd ../../ && rm -rf views/to-do-list && mkdir -p views && cp -r apps/to-do-list/dist/ views/to-do-list",
+    "build:prod": "cd apps/to-do-list/ && npm run build && cd ../../ && rm -rf views/to-do-list && mkdir views && cp -r apps/to-do-list/dist/ views/to-do-list",
     "start:server": "nodemon index.js --ignore 'apps/'"
   },
   "author": "Yuning",
