@@ -32,7 +32,7 @@
                 <button :class="$style.button" @click="deleteUpcomingBtnClicked" data-testid="deleteUpcomingBtn">Delete upcoming apppointments</button>
             </div>
             <template v-for="appt in upcomingApptsList">
-                <TodoItem :appt="appt" @delete="findAndDeleteAppt" @updateAppt="updateTitleAndDueDate" @moveToCompleted="findApptToMoveToCompleted" />
+                <Appointment :appt="appt" @delete="findAndDeleteAppt" @updateAppt="updateTitleAndDueDate" @moveToCompleted="findApptToMoveToCompleted" />
             </template>
         </section>
         <template v-if="modalDeleteUpcoming">
@@ -54,13 +54,13 @@
                 <button :class="$style.button" @click="deleteCompletedBtnClicked" data-testid="deleteCompletedBtn">Delete completed appointments</button>
             </div>
             <template v-for="appt in completedApptsList">
-                <TodoItem :appt="appt" @delete="findAndDeleteAppt" @updateAppt="updateTitleAndDueDate" @moveToActive="findApptToMoveToActive"/>
+                <Appointment :appt="appt" @delete="findAndDeleteAppt" @updateAppt="updateTitleAndDueDate" @moveToActive="findApptToMoveToActive"/>
             </template>
         </section>
         <template v-if="modalDeleteCompleted">
             <ModalWindow @closeModal="closeModal">
                 <template v-slot>
-                    Are you sure you want to delete all the completed tasks?
+                    Are you sure you want to delete all the completed appointments?
                     <div :class="$style.modalBtnContainer">
                         <button :class="$style.button" @click="deleteCompletedAppts" data-testid="yesBtn">Yes</button>
                         <button :class="[$style.button, $style.cancelButton]" @click="closeModal">Cancel</button>
@@ -91,16 +91,16 @@
 import { mapStores } from 'pinia'
 import { mapState, mapWritableState } from 'pinia'
 import { mapActions } from 'pinia'
-import { useTaskStore } from '@/stores/TaskStore'
+import { useApptStore } from '@/stores/ApptStore'
 
-import TodoItem from '../../components/todo-item/TodoItem.vue'
+import Appointment from '../../components/appointment/Appointment.vue'
 import ModalWindow from '../../components/modal-window/ModalWindow.vue'
 import axios from 'axios'
 
 export default {
     name: 'TodoList',
     components: {
-        TodoItem,
+        Appointment,
         ModalWindow,
     },
     data() {
@@ -118,17 +118,17 @@ export default {
         await this.fetchApptList()
     },
     computed: {
-        ...mapStores(useTaskStore),
-        ...mapState(useTaskStore, [ 
+        ...mapStores(useApptStore),
+        ...mapState(useApptStore, [ 
             'completedApptsList',
             'upcomingApptsList', 
         ]),
-        ...mapWritableState(useTaskStore, [
+        ...mapWritableState(useApptStore, [
             'apptList'
         ]),
     },
     methods: {
-        ...mapActions(useTaskStore, [
+        ...mapActions(useApptStore, [
             'dateOfToday',
             'fetchApptList',
             'sendAppt',
@@ -200,4 +200,4 @@ export default {
 }
 </script>
 
-<style module src="./TodoList.css" />
+<style module src="./ApptList.css" />

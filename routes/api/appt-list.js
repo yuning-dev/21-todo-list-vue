@@ -1,12 +1,12 @@
 const { Router } = require('express')
-const TodoItem = require('../../models/todo-item.model')
+const Appointment = require('../../models/appt.model')
 // const Session = require('../../models/session.model')
 
 const router = Router()
 
 router.get('/appointments', async (req, res) => {
     try {
-        let apptList = await TodoItem.find({ sessionId: req.session.id })
+        let apptList = await Appointment.find({ sessionId: req.session.id })
         if (!apptList) {
             throw new Error('No Appointments List found')
         }
@@ -18,7 +18,7 @@ router.get('/appointments', async (req, res) => {
 
 router.post('/appointment', async (req, res) => {
     console.log(req.session.id)
-    const newAppt = new TodoItem({
+    const newAppt = new Appointment({
         ...req.body,
         sessionId: req.session.id
     })
@@ -42,7 +42,7 @@ router.post('/appointment', async (req, res) => {
 router.delete('/appointment/:id', async (req, res) => {
     const { id } = req.params
     try {
-        const removed = await TodoItem.findByIdAndDelete(id)
+        const removed = await Appointment.findByIdAndDelete(id)
         if (!removed) {
             throw new Error('Something went wrong')
         }
@@ -54,14 +54,14 @@ router.delete('/appointment/:id', async (req, res) => {
 
 router.put('/appointment/:id', async (req, res) => {
     const { id } = req.params
-    const updatedAppt = new TodoItem({
+    const updatedAppt = new Appointment({
         title: req.body.title,
         dueDate: req.body.dueDate,
         completion: req.body.completion,
         _id: req.params.id
     })
     try {
-        const updated = await TodoItem.findByIdAndUpdate(id, updatedAppt, {})
+        const updated = await Appointment.findByIdAndUpdate(id, updatedAppt, {})
         if (!updated) {
             throw new Error('Something went wrong')
         }
@@ -74,7 +74,7 @@ router.put('/appointment/:id', async (req, res) => {
 router.post('/appointment/:id', async (req, res) => {
     const { id } = req.params
     try {
-        const apptToUpdate = await TodoItem.findById(id)
+        const apptToUpdate = await Appointment.findById(id)
         if (!apptToUpdate) {
             throw new Error('Something went wrong')
         }
@@ -88,7 +88,7 @@ router.post('/appointment/:id', async (req, res) => {
 
 router.post('/appointments/delete-active', async (req, res) => {
     try {
-        const deleted = await TodoItem.deleteMany({ completion: false })
+        const deleted = await Appointment.deleteMany({ completion: false })
         if (!deleted) {
             throw new Error('Something went wrong')
         }
@@ -100,7 +100,7 @@ router.post('/appointments/delete-active', async (req, res) => {
 
 router.post('/appointments/delete-completed', async (req, res) => {
     try {
-        const deleted = await TodoItem.deleteMany({ completion: true })
+        const deleted = await Appointment.deleteMany({ completion: true })
         if (!deleted) {
             throw new Error('Something went wrong')
         }
@@ -112,7 +112,7 @@ router.post('/appointments/delete-completed', async (req, res) => {
 
 router.post('/appointments/delete-all', async (req, res) => {
     try {
-        const deleted = await TodoItem.deleteMany({})
+        const deleted = await Appointment.deleteMany({})
         if (!deleted) {
             throw new Error('Something went wrong')
         }

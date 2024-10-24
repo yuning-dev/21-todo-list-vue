@@ -10,11 +10,6 @@ const router = createRouter({
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import App from './App.vue'
-// import axios from 'axios'
-// import VueAxios from 'vue-axios'
-
-// axios.defaults.withCredentials = true
-// Vue.use(VueAxios, axios)
 
 const pinia = createPinia()
 const app = createApp(App)

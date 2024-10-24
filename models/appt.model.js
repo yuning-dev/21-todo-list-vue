@@ -1,6 +1,6 @@
 const { Schema, model } = require('mongoose')
 
-const TodoSchema = new Schema({
+const ApptSchema = new Schema({
     title: {
         type: String,
         required: true
@@ -19,4 +19,4 @@ const TodoSchema = new Schema({
     }
 })
 
-module.exports = model('TodoItem', TodoSchema)
+module.exports = model('Appointment', ApptSchema)

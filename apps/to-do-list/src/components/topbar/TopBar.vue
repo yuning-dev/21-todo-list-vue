@@ -1,7 +1,7 @@
 <template>
     <section :class="$style.wrapper">
         <div :class="$style.items">
-            <router-link :class="$style.item" :to="{ name: 'todo-list' }">
+            <router-link :class="$style.item" :to="{ name: 'appt-list' }">
                 List view
             </router-link>
         </div>

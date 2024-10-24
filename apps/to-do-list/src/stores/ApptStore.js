@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import axios from 'axios'
 
-export const useTaskStore = defineStore('tasks', {
+export const useApptStore = defineStore('appts', {
     state: () => ({
         apptList: [],
     }),

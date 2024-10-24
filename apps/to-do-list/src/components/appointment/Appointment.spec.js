@@ -1,9 +1,9 @@
 import { describe, it, expect } from 'vitest'
 import { mount } from '@vue/test-utils'
 
-import TodoItem from './TodoItem.vue'
+import Appointment from './Appointment.vue'
 
-describe.skip('todo task component', () => {
+describe.skip('appointment', () => {
 
     const exampleTask = {
         description: 'have a date in Osaka',
@@ -26,7 +26,7 @@ describe.skip('todo task component', () => {
     }
 
     it('displays the description and due date when the task is created', () => {
-        const wrapper = mount(TodoItem, {
+        const wrapper = mount(Appointment, {
             props: {
                 task: exampleTask,
             }
@@ -41,7 +41,7 @@ describe.skip('todo task component', () => {
             { dueDate: dateOfToday(), colour: 'red', tense: 'today' },
             { dueDate: dateOfTomorrow(), colour: 'orange', tense: 'tomorrow' },
         ])('if task is due $tense, display the date in $colour', ({dueDate, colour, tense}) => {
-        const wrapper = mount(TodoItem, {
+        const wrapper = mount(Appointment, {
             props: {
                 task: {
                     ...exampleTask,
@@ -55,7 +55,7 @@ describe.skip('todo task component', () => {
     })
 
     it('displays the date in black if the due date is after tomorrow', () => {
-        const wrapper = mount(TodoItem, {
+        const wrapper = mount(Appointment, {
             props: {
                 task: {
                     ...exampleTask,
@@ -69,7 +69,7 @@ describe.skip('todo task component', () => {
     })
 
     it('deletes the task when the delete button is pressed', async () => {
-        const wrapper = mount(TodoItem, {
+        const wrapper = mount(Appointment, {
             props: {
                 task: exampleTask,
             }
@@ -81,7 +81,7 @@ describe.skip('todo task component', () => {
     })
 
     it('changes the completion state when the completed button is clicked', async () => {
-        const wrapper = mount(TodoItem, {
+        const wrapper = mount(Appointment, {
             props: {
                 task: {
                     ...exampleTask,
@@ -95,7 +95,7 @@ describe.skip('todo task component', () => {
     })
 
     it('makes an input field, a date picker and the edit complete button appear when the edit button is clicked', async () => {
-        const wrapper = mount(TodoItem, {
+        const wrapper = mount(Appointment, {
             props: {
                 task: exampleTask,
             }
@@ -115,7 +115,7 @@ describe.skip('todo task component', () => {
     })
 
     it('disables the completed and edit buttons when the edit button is clicked', async () => {
-        const wrapper = mount(TodoItem, {
+        const wrapper = mount(Appointment, {
             props: {
                 task: {
                     ...exampleTask,
@@ -136,7 +136,7 @@ describe.skip('todo task component', () => {
     })
 
     it('updates the task description and due date when the edit complete button is clicked', async () => {
-        const wrapper = mount(TodoItem, {
+        const wrapper = mount(Appointment, {
             props: {
                 task: exampleTask
             }
@@ -157,7 +157,7 @@ describe.skip('todo task component', () => {
     })
 
     it('does not display the completed button and displays the make active, edit description and delete buttons when the task is completed', () => {
-        const wrapper = mount(TodoItem, {
+        const wrapper = mount(Appointment, {
             props: {
                 task: {
                     ...exampleTask,

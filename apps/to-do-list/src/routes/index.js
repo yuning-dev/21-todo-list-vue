@@ -1,9 +1,9 @@
-import TodoList from '@/pages/todo-list/TodoList.vue'
+import ApptList from '@/pages/appt-list/ApptList.vue'
 
 export default [
     {
         path: '/',
-        name: 'todo-list',
-        component: TodoList
+        name: 'appt-list',
+        component: ApptList
     }
 ]

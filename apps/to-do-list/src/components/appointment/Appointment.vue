@@ -36,7 +36,7 @@
 <script>
 
 export default {
-    name: 'TodoItem',
+    name: 'Appointment',
     props: {
         appt: Object,
     },
@@ -93,4 +93,4 @@ export default {
 }
 </script>
 
-<style module src="./TodoItem.css" />
+<style module src="./Appointment.css" />
