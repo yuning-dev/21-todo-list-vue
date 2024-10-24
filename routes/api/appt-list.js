@@ -1,12 +1,11 @@
 const { Router } = require('express')
 const Appointment = require('../../models/appt.model')
-// const Session = require('../../models/session.model')
 
 const router = Router()
 
 router.get('/appointments', async (req, res) => {
     try {
-        let apptList = await Appointment.find({ sessionId: req.session.id })
+        let apptList = await Appointment.find({})
         if (!apptList) {
             throw new Error('No Appointments List found')
         }
@@ -24,11 +23,7 @@ router.post('/appointment', async (req, res) => {
     })
     console.log(newAppt)
 
-    // const newSession = new Session({ sessionId: req.session.id })
-    // console.log(newSession)
-
     try {
-        // const session = await newSession.save()
         const appt = await newAppt.save()
         if (!appt) {
             throw new Error('Something went wrong saving the apppointment')
