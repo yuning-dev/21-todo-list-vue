@@ -3,14 +3,14 @@ import axios from 'axios'
 
 export const useTaskStore = defineStore('tasks', {
     state: () => ({
-        taskList: [],
+        apptList: [],
     }),
     getters: {
-        activeTasksList(state) {
-            return state.taskList.filter((task) => !task.completion)
+        upcomingApptsList(state) {
+            return state.apptList.filter((appt) => !appt.completion)
         },
-        completedTasksList(state) {
-            return state.taskList.filter((task) => task.completion)
+        completedApptsList(state) {
+            return state.apptList.filter((appt) => appt.completion)
         },
     },
     actions: {
@@ -22,54 +22,53 @@ export const useTaskStore = defineStore('tasks', {
         },
         // async checkSession() {
         //     const response = await axios.get('/api/session')
-        //     if (!response.data.description) {
+        //     if (!response.data.title) {
         //         return false
         //     }
         // },
         // async createSession() {
         //     const response = await axios.post('/api/session')
         // },
-        async fetchTodoList() {
-            const response = await axios.get('/api/todo-items')
-            const formattedTaskList = response.data.map((task) => {
-                const formattedTask = {
-                    ...task,
-                    dueDate: task.dueDate.slice(0, 10)
+        async fetchApptList() {
+            const response = await axios.get('/api/appointments')
+            const formattedApptList = response.data.map((appt) => {
+                const formattedAppt = {
+                    ...appt,
+                    dueDate: appt.dueDate.slice(0, 10)
                 }
-                return formattedTask
+                return formattedAppt
             })
-            this.taskList = formattedTaskList
+            this.apptList = formattedApptList
         },
-        async sendTodoItem(newTaskDescription, newTaskDueDate, completionStatus) {
-            await axios.post('/api/todo-item', {
-                description: newTaskDescription,
+        async sendAppt(newTitle, newTaskDueDate, completionStatus) {
+            await axios.post('/api/appointment', {
+                title: newTitle,
                 dueDate: newTaskDueDate,
                 completion: completionStatus,
             })
-            await this.fetchTodoList()
+            await this.fetchApptList()
         },
-        async deleteTodoItem(id) {
-            await axios.delete('/api/todo-item/' + id)
-            await this.fetchTodoList()
+        async deleteAppt(id) {
+            await axios.delete('/api/appointment/' + id)
+            await this.fetchApptList()
         },
-        async updateDescriptionAndDueDate(updatedTaskDescription, updatedTaskDueDate, id, completionStatus) {
-            await axios.put('/api/todo-item/' + id, {
-                description: updatedTaskDescription,
+        async updateDescriptionAndDueDate(updatedTitle, updatedTaskDueDate, id, completionStatus) {
+            await axios.put('/api/appointment/' + id, {
+                title: updatedTitle,
                 dueDate: updatedTaskDueDate,
                 completion: completionStatus
             })
-            await this.fetchTodoList()
+            await this.fetchApptList()
         },
         async updateCompletionStatus(updatedCompletionStatus, id) {
-            await axios.post('/api/todo-item/' + id, {
+            await axios.post('/api/appointment/' + id, {
                 completion: updatedCompletionStatus
             })
-            await this.fetchTodoList()
+            await this.fetchApptList()
         },
         async deleteMultipleItems(itemsType) {
-            await axios.post('/api/todo-items/delete-' + itemsType)
-            await this.fetchTodoList()
+            await axios.post('/api/appointments/delete-' + itemsType)
+            await this.fetchApptList()
         }
-
     },
 })
