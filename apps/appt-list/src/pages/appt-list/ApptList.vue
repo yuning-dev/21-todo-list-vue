@@ -95,10 +95,9 @@ import { useApptStore } from '@/stores/ApptStore'
 
 import Appointment from '../../components/appointment/Appointment.vue'
 import ModalWindow from '../../components/modal-window/ModalWindow.vue'
-import axios from 'axios'
 
 export default {
-    name: 'TodoList',
+    name: 'ApptList',
     components: {
         Appointment,
         ModalWindow,

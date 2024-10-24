@@ -17,7 +17,7 @@ jobs:
             - name: Install dependencies
               run: |
                 npm install
-                cd apps/to-do-list
+                cd apps/appt-list
                 npm install
             - name: Configure AWS credentials
               uses: aws-actions/configure-aws-credentials@v1
@@ -27,7 +27,7 @@ jobs:
                 aws-region: eu-west-2
             - name: Run unit tests and build app
               run: |
-                cd apps/to-do-list
+                cd apps/appt-list
                 npm run test
             - name: Build app
               run: npm run build:prod

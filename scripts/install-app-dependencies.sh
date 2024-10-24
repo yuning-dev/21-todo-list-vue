@@ -1,5 +1,5 @@
 #!/bin/bash
 cd /home/opt/back-end/
 sudo npm install
-cd apps/to-do-list/
+cd apps/appt-list/
 sudo npm install

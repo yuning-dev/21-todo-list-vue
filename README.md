@@ -1,1 +1,1 @@
-To experience the snazzy todo list app in its full glory, please visit: http://snazzy-todo-list.s3-website.eu-west-2.amazonaws.com/#/
+The app is being actively worked on and I can't wait to share the new features!

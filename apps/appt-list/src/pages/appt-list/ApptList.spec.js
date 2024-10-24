@@ -1,13 +1,13 @@
 import { describe, test, expect, beforeEach, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 import { createTestingPinia } from '@pinia/testing'
-import { useTaskStore } from '@/stores/TaskStore'
+import { useApptStore } from '@/stores/ApptStore'
 import { nextTick } from 'vue'
 
-import TodoList from './TodoList.vue'
+import ApptList from './ApptList.vue'
 import ModalWindow from '@/components/modal-window/ModalWindow.vue'
 
-describe.skip('todo list, active tasks list and completed tasks list', () => {
+describe.skip('appointments list, active appointments list and completed appointments list', () => {
     let mountOptions
     
     beforeEach(() => {
@@ -57,14 +57,14 @@ describe.skip('todo list, active tasks list and completed tasks list', () => {
     // }
     
     async function addSampleTasks() {
-        const store = useTaskStore()
+        const store = useApptStore()
         store.taskList = [activeTask1, activeTask2, completedTask1, completedTask2]
     }
 
     test('when a task description and due date are provided, clicking the Add list item button adds the list to the task list and displays the task', async () => {
-        const wrapper = mount(TodoList, mountOptions)
+        const wrapper = mount(ApptList, mountOptions)
 
-        const store = useTaskStore()
+        const store = useApptStore()
 
         const taskDescription = wrapper.find('.addItemField')
         await taskDescription.setValue('feed the dog')
@@ -86,9 +86,9 @@ describe.skip('todo list, active tasks list and completed tasks list', () => {
     })
 
     test('if no task description is provided, clicking the Add task button does not do anything', async () => {
-       const wrapper = mount(TodoList, mountOptions) 
+       const wrapper = mount(ApptList, mountOptions) 
 
-       const store = useTaskStore()
+       const store = useApptStore()
 
        const dueDate = wrapper.find('.dueDate')
        await dueDate.setValue('2030-12-31')
@@ -100,9 +100,9 @@ describe.skip('todo list, active tasks list and completed tasks list', () => {
     })
 
     test('if no due date is provided, clicking the Add task button does not do anything', async () => {
-        const wrapper = mount(TodoList, mountOptions)
+        const wrapper = mount(ApptList, mountOptions)
 
-        const store = useTaskStore()
+        const store = useApptStore()
 
         const addItemField = wrapper.find('.addItemField')
         await addItemField.setValue('feed the dog')
@@ -115,7 +115,7 @@ describe.skip('todo list, active tasks list and completed tasks list', () => {
 
     test('if there are active tasks, clicking the Delete active tasks button makes a modal window appear', async () => {
         addSampleTasks()
-        const wrapper = mount(TodoList, mountOptions)
+        const wrapper = mount(ApptList, mountOptions)
 
         let modalWindow = wrapper.findComponent(ModalWindow)
         expect(modalWindow.exists()).toBe(false)
@@ -129,8 +129,8 @@ describe.skip('todo list, active tasks list and completed tasks list', () => {
 
     test('in the modal window triggered by clicking Delete active tasks, clicking Yes deletes the active tasks in the store', async () => {
         addSampleTasks()
-        const wrapper = mount(TodoList, mountOptions)
-        const store = useTaskStore()
+        const wrapper = mount(ApptList, mountOptions)
+        const store = useApptStore()
 
         expect(wrapper.text().includes('play football')).toBe(true)
         expect(wrapper.text().includes('go food shopping')).toBe(true)
@@ -153,8 +153,8 @@ describe.skip('todo list, active tasks list and completed tasks list', () => {
     
     test('in the modal window triggered by clicking Delete active tasks, clicking Cancel closes the modal without changing the task list', async () => {
         addSampleTasks()
-        const wrapper = mount(TodoList, mountOptions)
-        const store = useTaskStore()
+        const wrapper = mount(ApptList, mountOptions)
+        const store = useApptStore()
         let modalWindow = wrapper.findComponent(ModalWindow)
 
         const deleteActiveBtn = wrapper.find('[data-testid="deleteActiveBtn"]')
@@ -171,7 +171,7 @@ describe.skip('todo list, active tasks list and completed tasks list', () => {
 
     test('clicking the Delete completed tasks button when there are completed tasks makes a modal window appear', async () => {
         addSampleTasks()
-        const wrapper = mount(TodoList, mountOptions)
+        const wrapper = mount(ApptList, mountOptions)
 
         const deleteCompletedBtn = wrapper.find('[data-testid="deleteCompletedBtn"]')
         await deleteCompletedBtn.trigger('click')
@@ -183,8 +183,8 @@ describe.skip('todo list, active tasks list and completed tasks list', () => {
 
     test('after clicking the Delete completed tasks button: clicking yes closes the modal and deletes the completed tasks from the store and on the page', async () => {
         addSampleTasks()
-        const wrapper = mount(TodoList, mountOptions)
-        const store = useTaskStore()
+        const wrapper = mount(ApptList, mountOptions)
+        const store = useApptStore()
 
         const deleteCompletedBtn = wrapper.find('[data-testid="deleteCompletedBtn"]')
         await deleteCompletedBtn.trigger('click')
@@ -203,8 +203,8 @@ describe.skip('todo list, active tasks list and completed tasks list', () => {
 
     test('after clicking the Deleted completed tasks button: clicking cancel closes the modal without changing tasks on the page or the store', async () => {
         addSampleTasks()
-        const wrapper = mount(TodoList, mountOptions)
-        const store = useTaskStore()
+        const wrapper = mount(ApptList, mountOptions)
+        const store = useApptStore()
 
         const deleteCompletedBtn = wrapper.find('[data-testid="deleteCompletedBtn"]')
         await deleteCompletedBtn.trigger('click')
@@ -224,7 +224,7 @@ describe.skip('todo list, active tasks list and completed tasks list', () => {
 
     test('when there are tasks, clicking Delete all tasks button makes a modal window appear', async () => {
         addSampleTasks()
-        const wrapper = mount(TodoList, mountOptions)
+        const wrapper = mount(ApptList, mountOptions)
 
         let modalWindow = wrapper.findComponent(ModalWindow)
         expect(modalWindow.exists()).toBe(false)
@@ -239,8 +239,8 @@ describe.skip('todo list, active tasks list and completed tasks list', () => {
 
     test('after clicking Delete all tasks button, clicking Yes deletes all tasks from the store and the page and makes the modal window disappear', async () => {
         addSampleTasks()
-        const wrapper = mount(TodoList, mountOptions)
-        const store = useTaskStore()
+        const wrapper = mount(ApptList, mountOptions)
+        const store = useApptStore()
 
         const deleteAllBtn = wrapper.find('.deleteAllButton')
         await deleteAllBtn.trigger('click')
@@ -258,8 +258,8 @@ describe.skip('todo list, active tasks list and completed tasks list', () => {
 
     test('after clicking Delete all tasks button, clicking Cancel closes the modal window without modifying the store or tasks being displayed', async () => {
         addSampleTasks()
-        const wrapper = mount(TodoList, mountOptions)
-        const store = useTaskStore()
+        const wrapper = mount(ApptList, mountOptions)
+        const store = useApptStore()
 
         const deleteAllBtn = wrapper.find('.deleteAllButton')
         await deleteAllBtn.trigger('click')
